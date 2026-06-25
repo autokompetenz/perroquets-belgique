@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Sex {
+  Male
+  Female
+}
+
+enum PuppyStatus {
+  available
+  reserved
+  sold
+}
+
+enum DeliveryMethod {
+  pickup
+  delivery
+}
+
+enum ReservationStatus {
+  pending
+  deposit_confirmed
+  preparing
+  ready
+  delivered
+  cancelled
+}
+
+model Puppy {
+  id                  Int         @id @default(autoincrement())
+  name                String
+  breed               String
+  sex                 Sex
+  birthDate           DateTime
+  color               String
+  microchipNumber     String?     @unique
+  vaccinationStatus   String      @default("À jour")
+  dewormingStatus     String      @default("À jour")
+  weightCurrent       Float?
+  weightEstimatedAdult Float?
+  price               Float
+  deposit             Float?
+  description         String?     @db.Text
+  pedigreeDocUrl      String?
+  healthCertificateUrl String?
+  parentMotherName    String?
+  parentFatherName    String?
+  status              PuppyStatus @default(available)
+  availableFrom       DateTime?
+  location            String?
+  featured            Boolean     @default(false)
+  isActive            Boolean     @default(true)
+  imageUrl            String?
+  imageUrl2           String?
+  imageUrl3           String?
+  imageUrl4           String?
+  imageUrl5           String?
+  videoUrl            String?
+  createdAt           DateTime    @default(now())
+
+  reservations Reservation[]
+}
+
+model Guest {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  address   String?
+  hasPet    Boolean?
+  hasLostPet Boolean?
+  createdAt DateTime @default(now())
+
+  reservations Reservation[]
+}
+
+model Reservation {
+  id               Int                @id @default(autoincrement())
+  reservationNumber String            @unique
+  puppyId          Int
+  guestId          Int?
+  guestName        String
+  guestEmail       String
+  guestPhone       String
+  guestProfession  String?
+  guestHomeAddress String?
+  paymentMethod    String             @default("deposit")
+  paymentLabel     String?
+  hasPet           Boolean?
+  hasLostPet       Boolean?
+  discountPercent  Float?
+  discountAmount   Float?
+  totalPrice       Float?
+  depositAmount    Float?
+  depositPaidAt    DateTime?
+  balanceAmount    Float?
+  balancePaidAt    DateTime?
+  deliveryMethod   DeliveryMethod     @default(pickup)
+  deliveryAddress  String?
+  status           ReservationStatus  @default(pending)
+  contractUrl      String?
+  notes            String?            @db.Text
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  puppy    Puppy          @relation(fields: [puppyId], references: [id])
+  guest    Guest?         @relation(fields: [guestId], references: [id])
+  tracking ReservationTracking[]
+}
+
+model ReservationTracking {
+  id        Int                @id @default(autoincrement())
+  reservationId Int
+  status    ReservationStatus
+  comment   String?            @db.Text
+  createdAt DateTime           @default(now())
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+}
+
+model AdminLog {
+  id        Int      @id @default(autoincrement())
+  action    String
+  detail    String?  @db.Text
+  createdAt DateTime @default(now())
+}
+
+model WaitlistEntry {
+  id        Int      @id @default(autoincrement())
+  breed     String
+  name      String
+  email     String
+  phone     String?
+  notified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
