@@ -12,7 +12,7 @@ export default function ParrotSound() {
   useEffect(() => {
     if (!enabled) return;
     const audio = new Audio(SOUND_URL);
-    audio.volume = 0.7;
+    audio.volume = 1.0;
     audioRef.current = audio;
 
     const play = () => {
@@ -37,7 +37,7 @@ export default function ParrotSound() {
     localStorage.setItem('prq_sound', next ? 'on' : 'off');
     if (next) {
       const a = new Audio(SOUND_URL);
-      a.volume = 0.7;
+      a.volume = 1.0;
       a.play().catch(() => {});
     }
   };
