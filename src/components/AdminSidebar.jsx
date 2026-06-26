@@ -44,11 +44,11 @@ export default function AdminSidebar({ mobileOpen = false, onClose }) {
         <div style={{ background: 'var(--bg-card2)', border: '1px solid var(--border)', borderRadius: 12, padding: 18, textAlign: 'center', boxShadow: 'var(--shadow-sm)' }}>
           <div style={{
             width: 52, height: 52, borderRadius: '50%',
-            background: 'linear-gradient(135deg,#A8652A,#C9762E)',
+            background: 'linear-gradient(135deg,#2A5E32,#3A7D44)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: "'Outfit',sans-serif", fontWeight: 900, fontSize: 17,
             color: '#fff', margin: '0 auto 12px',
-            boxShadow: '0 6px 18px rgba(201,118,46,0.28)',
+            boxShadow: '0 6px 18px rgba(58,125,68,0.28)',
           }}>A</div>
           <p style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', letterSpacing: '0.01em' }}>Administrateur</p>
           <p style={{ fontSize: 11, color: 'var(--primary)', marginTop: 4, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Éleveur</p>

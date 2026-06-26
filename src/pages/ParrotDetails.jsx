@@ -39,7 +39,7 @@ export default function ParrotDetails() {
     text:    isDark ? '#ffffff'                  : '#111111',
     text2:   isDark ? 'rgba(255,255,255,0.65)'   : '#444444',
     text3:   isDark ? 'rgba(255,255,255,0.35)'   : '#888888',
-    primary: '#C9762E',
+    primary: '#3A7D44',
     shadow:  isDark ? '0 4px 24px rgba(0,0,0,0.4)' : '0 4px 24px rgba(0,0,0,0.08)',
   };
 
@@ -100,7 +100,7 @@ export default function ParrotDetails() {
                 {images.map((img, i) => (
                   <button key={i} onClick={() => setActiveImg(i)}
                     style={{ aspectRatio: '4/3', borderRadius: 10, overflow: 'hidden', border: `2.5px solid ${activeImg === i ? C.primary : C.border}`, opacity: activeImg === i ? 1 : 0.6, cursor: 'pointer', transition: 'all 0.25s ease', padding: 0, background: C.card, transform: activeImg === i ? 'scale(1.02)' : 'scale(1)' }}
-                    onMouseOver={e => { if (activeImg !== i) { e.currentTarget.style.opacity='0.9'; e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.borderColor='rgba(201,118,46,0.4)'; }}}
+                    onMouseOver={e => { if (activeImg !== i) { e.currentTarget.style.opacity='0.9'; e.currentTarget.style.transform='scale(1.05)'; e.currentTarget.style.borderColor='rgba(58,125,68,0.4)'; }}}
                     onMouseOut={e => { if (activeImg !== i) { e.currentTarget.style.opacity='0.6'; e.currentTarget.style.transform='scale(1)'; e.currentTarget.style.borderColor=C.border; }}}>
                     <img src={img} alt={`Vue ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   </button>
@@ -115,7 +115,7 @@ export default function ParrotDetails() {
                 {parrot.species}
               </span>
               {isCouple && (
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', background: 'rgba(201,118,46,0.8)', padding: '3px 10px', borderRadius: 4 }}>
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', background: 'rgba(58,125,68,0.8)', padding: '3px 10px', borderRadius: 4 }}>
                   ❤️ {t('couple', l)}
                 </span>
               )}
@@ -155,7 +155,7 @@ export default function ParrotDetails() {
                 <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: isMobile ? 20 : 24, color: C.text, letterSpacing: '-0.02em', marginBottom: 14, lineHeight: 1.2 }}>
                   {INFO_TITLE[l] || INFO_TITLE.fr}
                 </h3>
-                <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.75, borderLeft: '3px solid rgba(201,118,46,0.4)', paddingLeft: 18 }}>
+                <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.75, borderLeft: '3px solid rgba(58,125,68,0.4)', paddingLeft: 18 }}>
                   {parrot.description}
                 </p>
               </div>
@@ -168,11 +168,11 @@ export default function ParrotDetails() {
                   fontFamily: "'Outfit',sans-serif", fontSize: isMobile?14:15, fontWeight:800,
                   letterSpacing: '0.1em', textTransform: 'uppercase', border: 'none',
                   cursor: 'pointer', transition: 'all 0.3s ease',
-                  background: 'linear-gradient(135deg,#C9762E,#A8652A)',
-                  color: '#fff', boxShadow: '0 4px 16px rgba(201,118,46,0.3)',
+                  background: 'linear-gradient(135deg,#3A7D44,#2A5E32)',
+                  color: '#fff', boxShadow: '0 4px 16px rgba(58,125,68,0.3)',
                 }}
-                onMouseOver={e => { e.currentTarget.style.background='linear-gradient(135deg,#A8652A,#8B5522)'; e.currentTarget.style.transform='scale(1.02)'; }}
-                onMouseOut={e => { e.currentTarget.style.background='linear-gradient(135deg,#C9762E,#A8652A)'; e.currentTarget.style.transform='scale(1)'; }}>
+                onMouseOver={e => { e.currentTarget.style.background='linear-gradient(135deg,#2A5E32,#8B5522)'; e.currentTarget.style.transform='scale(1.02)'; }}
+                onMouseOut={e => { e.currentTarget.style.background='linear-gradient(135deg,#3A7D44,#2A5E32)'; e.currentTarget.style.transform='scale(1)'; }}>
                 🦜 {t('reserve_btn', l)}
               </button>
             ) : null}
@@ -226,7 +226,7 @@ export default function ParrotDetails() {
                   </div>
 
                   <label style={{ display:'flex', alignItems:'center', gap:10, cursor:'pointer', padding:'12px 14px', borderRadius:10, background:C.card2, border:'1px solid var(--border)' }}>
-                    <input type="radio" name="paymentMethod" value="deposit" defaultChecked style={{ accentColor:'#C9762E', width:18, height:18 }} />
+                    <input type="radio" name="paymentMethod" value="deposit" defaultChecked style={{ accentColor:'#3A7D44', width:18, height:18 }} />
                     <div>
                       <span style={{ fontSize:14, fontWeight:700, color:C.text }}>{t('payment_deposit', l)}</span>
                       <p style={{ fontSize:11, color:C.text3, margin:'2px 0 0' }}>{t('payment_deposit_sub', l)}</p>
@@ -237,7 +237,7 @@ export default function ParrotDetails() {
                   </label>
 
                   <label style={{ display:'flex', alignItems:'center', gap:10, cursor:'pointer', padding:'12px 14px', borderRadius:10, background:C.card2, border:'1px solid var(--border)' }}>
-                    <input type="radio" name="paymentMethod" value="full" style={{ accentColor:'#C9762E', width:18, height:18 }} />
+                    <input type="radio" name="paymentMethod" value="full" style={{ accentColor:'#3A7D44', width:18, height:18 }} />
                     <div>
                       <span style={{ fontSize:14, fontWeight:700, color:C.text }}>{t('payment_full', l)}</span>
                       <p style={{ fontSize:11, color:C.text3, margin:'2px 0 0' }}>{t('payment_full_sub', l)}</p>
@@ -252,20 +252,20 @@ export default function ParrotDetails() {
                   <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.12em', textTransform:'uppercase', color:C.text3, margin:0 }}>{t('has_pet', l)}</p>
                   <div style={{ display:'flex', gap:12 }}>
                     <label style={{ flex:1, display:'flex', alignItems:'center', gap:8, padding:'10px 14px', borderRadius:8, background:C.card2, border:'1px solid var(--border)', cursor:'pointer' }}>
-                      <input type="radio" name="hasPet" value="true" style={{ accentColor:'#C9762E' }} /> <span style={{ fontSize:14, color:C.text }}>{t('has_pet_yes', l)}</span>
+                      <input type="radio" name="hasPet" value="true" style={{ accentColor:'#3A7D44' }} /> <span style={{ fontSize:14, color:C.text }}>{t('has_pet_yes', l)}</span>
                     </label>
                     <label style={{ flex:1, display:'flex', alignItems:'center', gap:8, padding:'10px 14px', borderRadius:8, background:C.card2, border:'1px solid var(--border)', cursor:'pointer' }}>
-                      <input type="radio" name="hasPet" value="false" style={{ accentColor:'#C9762E' }} /> <span style={{ fontSize:14, color:C.text }}>{t('has_pet_no', l)}</span>
+                      <input type="radio" name="hasPet" value="false" style={{ accentColor:'#3A7D44' }} /> <span style={{ fontSize:14, color:C.text }}>{t('has_pet_no', l)}</span>
                     </label>
                   </div>
 
                   <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.12em', textTransform:'uppercase', color:C.text3, margin:0 }}>{t('lost_pet', l)}</p>
                   <div style={{ display:'flex', gap:12 }}>
                     <label style={{ flex:1, display:'flex', alignItems:'center', gap:8, padding:'10px 14px', borderRadius:8, background:C.card2, border:'1px solid var(--border)', cursor:'pointer' }}>
-                      <input type="radio" name="hasLostPet" value="true" style={{ accentColor:'#C9762E' }} /> <span style={{ fontSize:14, color:C.text }}>{t('lost_pet_yes', l)}</span>
+                      <input type="radio" name="hasLostPet" value="true" style={{ accentColor:'#3A7D44' }} /> <span style={{ fontSize:14, color:C.text }}>{t('lost_pet_yes', l)}</span>
                     </label>
                     <label style={{ flex:1, display:'flex', alignItems:'center', gap:8, padding:'10px 14px', borderRadius:8, background:C.card2, border:'1px solid var(--border)', cursor:'pointer' }}>
-                      <input type="radio" name="hasLostPet" value="false" style={{ accentColor:'#C9762E' }} /> <span style={{ fontSize:14, color:C.text }}>{t('lost_pet_no', l)}</span>
+                      <input type="radio" name="hasLostPet" value="false" style={{ accentColor:'#3A7D44' }} /> <span style={{ fontSize:14, color:C.text }}>{t('lost_pet_no', l)}</span>
                     </label>
                   </div>
 
@@ -306,7 +306,7 @@ export default function ParrotDetails() {
                 { icon: '💜', title: t('talking', l), value: parrot.talkingAbility || (l==='fr'?'En développement':l==='nl'?'In ontwikkeling':l==='en'?'Developing':'En développement') },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 16, padding: '20px', background: C.card2, borderRadius: 12 }}>
-                  <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(201,118,46,0.15),rgba(201,118,46,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(58,125,68,0.15),rgba(58,125,68,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>
                     {item.icon}
                   </div>
                   <div>
@@ -331,7 +331,7 @@ export default function ParrotDetails() {
 
             {/* Partner info if couple */}
             {isCouple && parrot.partnerName && (
-              <div style={{ marginTop: 20, padding: 20, background: 'linear-gradient(135deg,rgba(201,118,46,0.06),rgba(201,118,46,0.02))', borderRadius: 12, border: '1px solid rgba(201,118,46,0.15)' }}>
+              <div style={{ marginTop: 20, padding: 20, background: 'linear-gradient(135deg,rgba(58,125,68,0.06),rgba(58,125,68,0.02))', borderRadius: 12, border: '1px solid rgba(58,125,68,0.15)' }}>
                 <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.primary, marginBottom: 12 }}>
                   ❤️ {l==='fr'?'Informations sur le couple':l==='nl'?'Informatie over het koppel':l==='en'?'Couple information':'Informations sur le couple'}
                 </p>

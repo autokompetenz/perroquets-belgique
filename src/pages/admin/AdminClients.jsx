@@ -46,7 +46,7 @@ export default function AdminClients() {
                     onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                     <td style={{ padding:'14px 20px' }}>
                       <div style={{ display:'flex', alignItems:'center', gap:12 }}>
-                        <div style={{ width:36, height:36, borderRadius:'50%', background:'linear-gradient(135deg,#A8652A,#C9762E)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:800, color:'#fff', flexShrink:0 }}>
+                        <div style={{ width:36, height:36, borderRadius:'50%', background:'linear-gradient(135deg,#2A5E32,#3A7D44)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:800, color:'#fff', flexShrink:0 }}>
                           {getInitials(guest.name)}
                         </div>
                         <p style={{ fontWeight:800, color:'var(--text)', fontSize:15 }}>{guest.name}</p>

@@ -75,7 +75,7 @@ export default function Track() {
 
         {loading && (
           <div style={{ textAlign: 'center', padding: 40 }}>
-            <div style={{ width: 40, height: 40, border: '3px solid rgba(201,118,46,0.15)', borderTopColor: '#C9762E', borderRadius: '50%', animation: 'spin 0.9s linear infinite', margin: '0 auto' }} />
+            <div style={{ width: 40, height: 40, border: '3px solid rgba(58,125,68,0.15)', borderTopColor: '#3A7D44', borderRadius: '50%', animation: 'spin 0.9s linear infinite', margin: '0 auto' }} />
           </div>
         )}
 
@@ -159,8 +159,8 @@ export default function Track() {
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                         <div style={{
                           width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          background: isCurrentStep ? 'linear-gradient(135deg,#A8652A,#C9762E)' : isActive ? 'rgba(201,118,46,0.15)' : 'var(--bg-card2)',
-                          border: `2px solid ${isCurrentStep ? '#C9762E' : isActive ? 'rgba(201,118,46,0.4)' : 'var(--border)'}`,
+                          background: isCurrentStep ? 'linear-gradient(135deg,#2A5E32,#3A7D44)' : isActive ? 'rgba(58,125,68,0.15)' : 'var(--bg-card2)',
+                          border: `2px solid ${isCurrentStep ? '#3A7D44' : isActive ? 'rgba(58,125,68,0.4)' : 'var(--border)'}`,
                           fontSize: 16, zIndex: 2, transition: 'all 0.3s',
                         }}>
                           <span style={{ fontSize: 14 }}>{STATUS_ICONS[step.key]}</span>
@@ -168,7 +168,7 @@ export default function Track() {
                         {i < timelineSteps.length - 1 && (
                           <div style={{
                             flex: 1, width: 2,
-                            background: isActive ? 'linear-gradient(to bottom,#C9762E,rgba(201,118,46,0.2))' : 'var(--border)',
+                            background: isActive ? 'linear-gradient(to bottom,#3A7D44,rgba(58,125,68,0.2))' : 'var(--border)',
                           }} />
                         )}
                       </div>

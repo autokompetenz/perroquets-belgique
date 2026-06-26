@@ -21,14 +21,14 @@ export default function ParrotCard({ parrot, index = 0 }) {
       className="parrot-card"
       style={{
         background: 'var(--bg-card)', borderRadius: 12, overflow: 'hidden',
-        border: `1px solid ${hovered ? 'rgba(201,118,46,0.3)' : 'var(--border)'}`,
+        border: `1px solid ${hovered ? 'rgba(58,125,68,0.3)' : 'var(--border)'}`,
         transition: 'all 0.35s cubic-bezier(0.16,1,0.3,1)',
         transform: hovered ? 'translateY(-5px)' : 'translateY(0)',
         boxShadow: hovered ? 'var(--shadow-md)' : 'var(--shadow-sm)',
       }}>
 
       <Link to={`/parrot/${parrot.slug || parrot.id}`} style={{ display: 'block', position: 'relative', overflow: 'hidden' }}>
-        <img src={parrot.imageUrl || 'https://images.unsplash.com/photo-1515003197210-e0cd718b72b5?w=600&q=70'}
+        <img src={parrot.imageUrl || 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&q=70'}
           alt={parrot.name}
           className="parrot-img-zoom"
           style={{ width: '100%', height: 280, objectFit: 'cover', display: 'block' }} />
@@ -36,10 +36,10 @@ export default function ParrotCard({ parrot, index = 0 }) {
 
         <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 7 }}>
           {parrot.featured && (
-            <span style={{ background: '#C9762E', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
+            <span style={{ background: '#3A7D44', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
           )}
           {isCouple && (
-            <span style={{ background: 'rgba(201,118,46,0.85)', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>❤️ Couple</span>
+            <span style={{ background: 'rgba(58,125,68,0.85)', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>❤️ Couple</span>
           )}
         </div>
 

@@ -91,13 +91,13 @@ export default function Footer() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 10 : 8, fontSize: 13, color: text }}>
             <a href="mailto:contact@leparcdesperroquets.fr" style={{
               fontSize: isMobile ? 14 : 13, fontWeight: 700, color: '#fff',
-              background: '#C9762E', textDecoration: 'none', padding: '10px 20px',
+              background: '#3A7D44', textDecoration: 'none', padding: '10px 20px',
               borderRadius: 8, textAlign: 'center', display: 'inline-block',
               fontFamily: "'Outfit',sans-serif", letterSpacing: '0.04em',
               transition: 'background 0.2s',
             }}
               onMouseOver={e => e.currentTarget.style.background = '#B8681E'}
-              onMouseOut={e => e.currentTarget.style.background = '#C9762E'}>
+              onMouseOut={e => e.currentTarget.style.background = '#3A7D44'}>
               ✉ {t('contact_label', lang)}
             </a>
             <span>1235 Route de Claveyson, 26260 Bren</span>

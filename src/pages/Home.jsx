@@ -69,15 +69,15 @@ export default function Home() {
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
       <section ref={heroRef} style={{ position:'relative', height: isMobile ? '100svh' : '100vh', minHeight:580, display:'flex', alignItems:'center', overflow:'hidden' }}>
         <motion.div style={{ position:'absolute', inset:0, y:heroY }}>
-          <img src="https://images.unsplash.com/photo-1515003197210-e0cd718b72b5?w=1800&q=80&auto=format"
+          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=1800&q=80&auto=format"
             alt="Hero" style={{ width:'100%', height:'110%', objectFit:'cover', display:'block' }} />
-          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 60%, rgba(0,0,0,0.3) 100%)' }} />
+          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(10,30,15,0.88) 0%, rgba(30,60,35,0.55) 60%, rgba(40,80,45,0.35) 100%)' }} />
         </motion.div>
 
         <motion.div style={{ position:'relative', zIndex:2, padding: isMobile ? '0 5%' : '0 7%', maxWidth:780, opacity:heroO }}>
           <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.1 }}>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:10, background:'rgba(201,118,46,0.15)', border:'1px solid rgba(201,118,46,0.3)', borderRadius:4, padding:'7px 16px', marginBottom:28 }}>
-              <span style={{ width:6, height:6, borderRadius:'50%', background:'#C9762E', display:'inline-block' }} />
+            <div style={{ display:'inline-flex', alignItems:'center', gap:10, background:'rgba(58,125,68,0.15)', border:'1px solid rgba(58,125,68,0.3)', borderRadius:4, padding:'7px 16px', marginBottom:28 }}>
+              <span style={{ width:6, height:6, borderRadius:'50%', background:'#3A7D44', display:'inline-block' }} />
               <span style={{ fontSize:11, fontWeight:700, letterSpacing:'0.3em', textTransform:'uppercase', color:'rgba(255,255,255,0.8)' }}>
                 {t('hero_badge', l)}
               </span>
@@ -86,7 +86,7 @@ export default function Home() {
 
           <motion.h1 initial={{ opacity:0, y:40 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }}
             style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 'clamp(38px,10vw,56px)' : 'clamp(52px,6vw,88px)', color:'#fff', letterSpacing:'-0.03em', lineHeight:1.0, marginBottom:22 }}>
-            LE PARC<br/><span style={{ color:'#C9762E' }}>DES PERROQUETS</span>
+            LE PARC<br/><span style={{ color:'#4CAF50' }}>DES PERROQUETS</span>
           </motion.h1>
 
           <motion.p initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.35 }}
@@ -113,7 +113,7 @@ export default function Home() {
             { value:'150+', label:t('hero_stat3', l) },
           ].map(({ value, label }) => (
             <div key={label} style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 22 : 30, color:'#C9762E', lineHeight:1 }}>{value}</div>
+              <div style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 22 : 30, color:'#4CAF50', lineHeight:1 }}>{value}</div>
               <div style={{ fontSize: isMobile ? 10 : 12, color:'rgba(255,255,255,0.45)', marginTop:4, fontWeight:600, letterSpacing:'0.05em' }}>{label}</div>
             </div>
           ))}

@@ -53,7 +53,7 @@ export default function AdminReservations() {
           <button key={id} type="button" onClick={() => { setActiveTab(id); fetch(id); }}
             style={{ padding:'9px 16px', borderRadius:8, fontSize:13, fontWeight:700, cursor:'pointer', fontFamily:"'Outfit',sans-serif", transition:'all 0.2s', border:`1px solid ${activeTab===id ? 'var(--primary)' : 'var(--border)'}`, background: activeTab===id ? 'var(--primary-bg)' : 'var(--bg-card)', color: activeTab===id ? 'var(--primary)' : 'var(--text-2)', boxShadow: activeTab===id ? 'none' : 'var(--shadow-sm)' }}>
             {label}
-            {id && countFor(id) > 0 && <span style={{ marginLeft:8, background: activeTab===id ? 'rgba(201,118,46,0.2)' : 'var(--bg-card2)', padding:'2px 7px', borderRadius:8, fontSize:11, border: activeTab===id ? '1px solid var(--primary-border)' : '1px solid var(--border)' }}>{countFor(id)}</span>}
+            {id && countFor(id) > 0 && <span style={{ marginLeft:8, background: activeTab===id ? 'rgba(58,125,68,0.2)' : 'var(--bg-card2)', padding:'2px 7px', borderRadius:8, fontSize:11, border: activeTab===id ? '1px solid var(--primary-border)' : '1px solid var(--border)' }}>{countFor(id)}</span>}
           </button>
         ))}
       </div>

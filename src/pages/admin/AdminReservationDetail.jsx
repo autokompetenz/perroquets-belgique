@@ -165,7 +165,7 @@ export default function AdminReservationDetail() {
                   background: newStatus===val ? 'var(--primary-bg)' : 'var(--bg-card2)',
                   transition:'all 0.2s',
                 }}>
-                  <input type="radio" name="status" value={val} checked={newStatus===val} onChange={() => setNewStatus(val)} style={{ accentColor:'#C9762E', width:16, height:16 }} />
+                  <input type="radio" name="status" value={val} checked={newStatus===val} onChange={() => setNewStatus(val)} style={{ accentColor:'#3A7D44', width:16, height:16 }} />
                   <span style={{ fontSize:14, color:'var(--text)', fontWeight: newStatus===val ? 700 : 500 }}>{label}</span>
                 </label>
               ))}

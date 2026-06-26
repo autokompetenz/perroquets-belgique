@@ -78,11 +78,11 @@ export default function Chatbot() {
   const footerBg   = isDark ? '#141414'                 : '#f8f8f8';
   const footerBord = isDark ? 'rgba(255,255,255,0.06)'  : 'rgba(0,0,0,0.08)';
   const dotBg      = isDark ? '#555'                    : '#bbb';
-  const quickBg    = isDark ? 'rgba(201,118,46,0.08)'    : 'rgba(201,118,46,0.06)';
-  const quickBd    = isDark ? 'rgba(201,118,46,0.2)'     : 'rgba(201,118,46,0.25)';
-  const quickText  = isDark ? 'rgba(255,255,255,0.7)'    : '#C9762E';
-  const quickHoverBg   = isDark ? 'rgba(201,118,46,0.18)' : 'rgba(201,118,46,0.14)';
-  const quickHoverText = '#C9762E';
+  const quickBg    = isDark ? 'rgba(58,125,68,0.08)'    : 'rgba(58,125,68,0.06)';
+  const quickBd    = isDark ? 'rgba(58,125,68,0.2)'     : 'rgba(58,125,68,0.25)';
+  const quickText  = isDark ? 'rgba(255,255,255,0.7)'    : '#3A7D44';
+  const quickHoverBg   = isDark ? 'rgba(58,125,68,0.18)' : 'rgba(58,125,68,0.14)';
+  const quickHoverText = '#3A7D44';
 
   useEffect(() => {
     const R2 = RESPONSES[lang] || RESPONSES.fr;
@@ -122,7 +122,7 @@ export default function Chatbot() {
           boxShadow: isDark ? '0 20px 60px rgba(0,0,0,0.6)' : '0 20px 60px rgba(0,0,0,0.15)',
         }}
       >
-        <div style={{ background: 'linear-gradient(135deg, #A8652A, #C9762E)', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+        <div style={{ background: 'linear-gradient(135deg, #2A5E32, #3A7D44)', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
           <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>🦜</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 15, color: '#fff', letterSpacing: '0.02em' }}>
@@ -142,7 +142,7 @@ export default function Chatbot() {
               style={{
                 maxWidth: '88%', padding: '12px 16px', borderRadius: 12, fontSize: 14, lineHeight: 1.6,
                 whiteSpace: 'pre-wrap', wordBreak: 'break-word', fontFamily: "'Outfit', sans-serif",
-                background: m.from === 'bot' ? msgBotBg : '#C9762E',
+                background: m.from === 'bot' ? msgBotBg : '#3A7D44',
                 color: m.from === 'bot' ? msgBotText : msgUserText,
                 alignSelf: m.from === 'bot' ? 'flex-start' : 'flex-end',
                 borderBottomLeftRadius: m.from === 'bot' ? 3 : 12,
@@ -185,7 +185,7 @@ export default function Chatbot() {
               borderRadius: 8, padding: '10px 14px', fontSize: 14, fontFamily: "'Outfit', sans-serif",
               outline: 'none', transition: 'border-color 0.2s',
             }}
-            onFocus={e => e.target.style.borderColor = '#C9762E'}
+            onFocus={e => e.target.style.borderColor = '#3A7D44'}
             onBlur={e => e.target.style.borderColor = inputBorder}
           />
           <style>{`
@@ -194,7 +194,7 @@ export default function Chatbot() {
           `}</style>
           <button onClick={() => send()} disabled={!input.trim()}
             style={{
-              background: input.trim() ? '#C9762E' : (isDark ? 'rgba(201,118,46,0.3)' : 'rgba(201,118,46,0.2)'),
+              background: input.trim() ? '#3A7D44' : (isDark ? 'rgba(58,125,68,0.3)' : 'rgba(58,125,68,0.2)'),
               border: 'none', borderRadius: 8, cursor: input.trim() ? 'pointer' : 'not-allowed',
               width: 42, height: 42, display: 'flex', alignItems: 'center', justifyContent: 'center',
               color: '#fff', fontSize: 18, flexShrink: 0, transition: 'background 0.2s',

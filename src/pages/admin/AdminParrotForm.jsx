@@ -140,7 +140,7 @@ export default function AdminParrotForm() {
 
           <div style={{ marginTop:16, display:'flex', gap:20, flexWrap:'wrap' }}>
             <label style={{ display:'flex', alignItems:'center', gap:10, cursor:'pointer', padding:'10px 14px', borderRadius:8, background:'var(--bg-card2)', border: form.handFed ? '1px solid var(--primary-border)' : '1px solid var(--border)' }}>
-              <input type="checkbox" checked={form.handFed} onChange={set("handFed")} style={{ accentColor:'#C9762E', width:18, height:18 }} />
+              <input type="checkbox" checked={form.handFed} onChange={set("handFed")} style={{ accentColor:'#3A7D44', width:18, height:18 }} />
               <span style={{ fontSize:14, color:'var(--text-2)', fontWeight:600 }}>Nourri(e) à la main</span>
             </label>
           </div>
@@ -149,14 +149,14 @@ export default function AdminParrotForm() {
         <Section title="Type de vente">
           <div style={{ display:'flex', gap:16, marginBottom:16 }}>
             <label style={{ flex:1, display:'flex', alignItems:'center', gap:12, cursor:'pointer', padding:'14px 18px', borderRadius:10, background: form.saleType === 'solo' ? 'var(--primary-bg)' : 'var(--bg-card2)', border: form.saleType === 'solo' ? '2px solid var(--primary)' : '1px solid var(--border)' }}>
-              <input type="radio" name="saleType" value="solo" checked={form.saleType === 'solo'} onChange={set("saleType")} style={{ accentColor:'#C9762E', width:18, height:18 }} />
+              <input type="radio" name="saleType" value="solo" checked={form.saleType === 'solo'} onChange={set("saleType")} style={{ accentColor:'#3A7D44', width:18, height:18 }} />
               <div>
                 <span style={{ fontSize:15, fontWeight:700, color:'var(--text)' }}>🦜 Seul</span>
                 <p style={{ fontSize:12, color:'var(--text-3)', marginTop:4 }}>Vente d'un perroquet individuel</p>
               </div>
             </label>
             <label style={{ flex:1, display:'flex', alignItems:'center', gap:12, cursor:'pointer', padding:'14px 18px', borderRadius:10, background: form.saleType === 'couple' ? 'var(--primary-bg)' : 'var(--bg-card2)', border: form.saleType === 'couple' ? '2px solid var(--primary)' : '1px solid var(--border)' }}>
-              <input type="radio" name="saleType" value="couple" checked={form.saleType === 'couple'} onChange={set("saleType")} style={{ accentColor:'#C9762E', width:18, height:18 }} />
+              <input type="radio" name="saleType" value="couple" checked={form.saleType === 'couple'} onChange={set("saleType")} style={{ accentColor:'#3A7D44', width:18, height:18 }} />
               <div>
                 <span style={{ fontSize:15, fontWeight:700, color:'var(--text)' }}>💑 En couple</span>
                 <p style={{ fontSize:12, color:'var(--text-3)', marginTop:4 }}>Vente d'un couple de perroquets</p>
@@ -220,7 +220,7 @@ export default function AdminParrotForm() {
           <div style={{ display:'flex', gap:28, flexWrap:'wrap' }}>
             {[['featured','Perroquet mis en avant (★ Nouveau)'],['isActive','Actif (visible en catalogue)']].map(([f,l]) => (
               <label key={f} style={{ display:'flex', alignItems:'center', gap:12, cursor:'pointer', padding:'12px 16px', borderRadius:10, background:'var(--bg-card2)', border:'1px solid var(--border)' }}>
-                <input type="checkbox" checked={Boolean(form[f])} onChange={set(f)} style={{ accentColor:'#C9762E', width:20, height:20 }} />
+                <input type="checkbox" checked={Boolean(form[f])} onChange={set(f)} style={{ accentColor:'#3A7D44', width:20, height:20 }} />
                 <span style={{ fontSize:14, color:'var(--text-2)', fontWeight:600 }}>{l}</span>
               </label>
             ))}

@@ -21,7 +21,7 @@ export default function AdminDashboard() {
   const statCards = [
     { icon:'🦜', label:'Perroquets', value: totalParrots, color:'#60A5FA', sub:'En catalogue' },
     { icon:'📈', label:'Réservations', value: totalReservations, color:'#C084FC', sub:'Total réservations' },
-    { icon:'💵', label:'Chiffre d\'affaires', value: formatEuro(totalRevenue), color:'#C9762E', sub:'Hors annulées', wide: true },
+    { icon:'💵', label:'Chiffre d\'affaires', value: formatEuro(totalRevenue), color:'#3A7D44', sub:'Hors annulées', wide: true },
     { icon:'?', label:'En attente', value: pendingReservations, color: pendingReservations > 0 ? '#FFAA00' : '#22C55E', sub: pendingReservations > 0 ? 'Action requise' : 'Aucune en attente' },
     { icon:'🐾', label:'Disponibles', value: data?.availableParrots || 0, color:'#22C55E', sub:'À l\'adoption' },
   ];

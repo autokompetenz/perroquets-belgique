@@ -62,8 +62,8 @@ export default function DeliveryModal() {
         <div style={{ textAlign: 'center', marginBottom: 20 }}>
           <div style={{
             width: 64, height: 64, borderRadius: '50%',
-            background: 'rgba(201,118,46,0.12)',
-            border: '2px solid rgba(201,118,46,0.25)',
+            background: 'rgba(58,125,68,0.12)',
+            border: '2px solid rgba(58,125,68,0.25)',
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 28, marginBottom: 16,
           }}>🚚</div>

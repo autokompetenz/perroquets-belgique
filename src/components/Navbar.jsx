@@ -137,7 +137,7 @@ export default function Navbar() {
                 <>
                   <div style={{
                     width: 22, height: 22, borderRadius: '50%',
-                    background: 'linear-gradient(135deg,#A8652A,#C9762E)',
+                    background: 'linear-gradient(135deg,#2A5E32,#3A7D44)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 10, fontWeight: 800, color: '#fff', flexShrink: 0,
                   }}>A</div>
@@ -229,8 +229,8 @@ export default function Navbar() {
                           style={{
                             display: 'flex', alignItems: 'center', gap: 7,
                             padding: isMobile ? '10px 6px' : '8px 10px',
-                            background: l.code === lang ? 'rgba(201,118,46,0.1)' : 'transparent',
-                            border: `1px solid ${l.code === lang ? 'rgba(201,118,46,0.3)' : 'transparent'}`,
+                            background: l.code === lang ? 'rgba(58,125,68,0.1)' : 'transparent',
+                            border: `1px solid ${l.code === lang ? 'rgba(58,125,68,0.3)' : 'transparent'}`,
                             borderRadius: 6, cursor: 'pointer',
                             fontSize: isMobile ? 14 : 13,
                             color: l.code === lang ? 'var(--primary)' : menuText2,

@@ -81,7 +81,7 @@ export default function Catalog() {
       </div>
 
       {(species !== 'all' || search || sort) && (
-        <button onClick={resetAll} style={{ width:'100%', padding:'10px', background:'rgba(201,118,46,0.06)', border:'1px solid var(--primary-border)', borderRadius:8, color:'var(--primary)', fontFamily:"'Outfit',sans-serif", fontSize:13, fontWeight:700, cursor:'pointer' }}>
+        <button onClick={resetAll} style={{ width:'100%', padding:'10px', background:'rgba(58,125,68,0.06)', border:'1px solid var(--primary-border)', borderRadius:8, color:'var(--primary)', fontFamily:"'Outfit',sans-serif", fontSize:13, fontWeight:700, cursor:'pointer' }}>
           ✕ {t('reset', l)}
         </button>
       )}
