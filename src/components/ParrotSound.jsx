@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useThemeStore } from '../store';
 
-const SOUND_URL = 'https://www.soundjay.com/animal/parrot-1.mp3';
+const SOUND_URL = 'https://www.soundjay.com/misc/whistle-1.mp3';
 
 export default function ParrotSound() {
   const { theme } = useThemeStore();
@@ -12,7 +12,7 @@ export default function ParrotSound() {
   useEffect(() => {
     if (!enabled) return;
     const audio = new Audio(SOUND_URL);
-    audio.volume = 0.3;
+    audio.volume = 0.7;
     audioRef.current = audio;
 
     const play = () => {
@@ -36,7 +36,9 @@ export default function ParrotSound() {
     setEnabled(next);
     localStorage.setItem('prq_sound', next ? 'on' : 'off');
     if (next) {
-      new Audio(SOUND_URL).play().catch(() => {});
+      const a = new Audio(SOUND_URL);
+      a.volume = 0.7;
+      a.play().catch(() => {});
     }
   };
 
