@@ -105,6 +105,38 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
+        {/* Flying parrot */}
+        {!isMobile && (
+          <motion.div
+            initial={{ opacity:0, x:150, rotate:20, scale:0.4 }}
+            animate={{ opacity:1, x:0, rotate:0, scale:1 }}
+            transition={{ duration:1.2, delay:0.3, ease:[0.16,1,0.3,1] }}
+            style={{
+              position:'absolute', right:'6%', top:'50%', marginTop:-80,
+              zIndex:3, fontSize:120, lineHeight:1, pointerEvents:'none',
+              filter:'drop-shadow(0 20px 40px rgba(0,0,0,0.35))',
+              animation:'float 3s ease-in-out infinite',
+              animationDelay:'1.5s',
+            }}>
+            🦜
+          </motion.div>
+        )}
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity:0 }}
+          animate={{ opacity:1 }}
+          transition={{ delay:1.5, duration:0.6 }}
+          style={{ position:'absolute', bottom: isMobile ? 60 : 70, left:'50%', transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:4, pointerEvents:'none' }}>
+          <span style={{ fontSize:10, fontWeight:700, letterSpacing:'0.3em', textTransform:'uppercase', color:'rgba(255,255,255,0.35)' }}>
+            {l==='fr'?'Défiler':l==='nl'?'Scrollen':l==='en'?'Scroll':'Défiler'}
+          </span>
+          <motion.div
+            animate={{ y:[0,6,0] }}
+            transition={{ duration:1.8, repeat:Infinity, ease:'easeInOut' }}
+            style={{ width:20, height:20, borderRight:'2px solid rgba(255,255,255,0.35)', borderBottom:'2px solid rgba(255,255,255,0.35)', transform:'rotate(45deg)' }} />
+        </motion.div>
+
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.8, duration:0.6 }}
           style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(0,0,0,0.7)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(255,255,255,0.08)', padding: isMobile ? '16px 5%' : '22px 7%', display:'flex', justifyContent:'space-around', gap:16, flexWrap:'wrap' }}>
           {[
