@@ -7,6 +7,7 @@ import { useLangStore } from '../store';
 import { t } from '../utils/i18n';
 import { useBreakpoint } from '../hooks';
 import ParrotCard from '../components/ParrotCard';
+import ForetScene from '../components/ForetScene';
 
 const SERVICES = [
   { icon:'🦜', fr:'Perroquets de race', nl:'Papegaaien van ras', en:'Purebred parrots',
@@ -67,17 +68,18 @@ export default function Home() {
 
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
-      <section ref={heroRef} style={{ position:'relative', height: isMobile ? '100svh' : '100vh', minHeight:580, display:'flex', alignItems:'center', overflow:'hidden' }}>
-        <motion.div style={{ position:'absolute', inset:0, y:heroY }}>
-          <img src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=1800&q=80&auto=format"
-            alt="Hero" style={{ width:'100%', height:'110%', objectFit:'cover', display:'block' }} />
-          <div style={{ position:'absolute', inset:0, background:'linear-gradient(135deg, rgba(10,30,15,0.88) 0%, rgba(30,60,35,0.55) 60%, rgba(40,80,45,0.35) 100%)' }} />
-        </motion.div>
+      <section ref={heroRef} style={{ position:'relative', height: isMobile ? '100svh' : '100vh', minHeight:580, display:'flex', alignItems:'center', overflow:'hidden', background:'linear-gradient(160deg, #0D2414 0%, #1A3C26 30%, #2D5A3E 60%, #3A7D44 100%)' }}>
+        <div style={{ position:'absolute', inset:0, opacity:0.15 }}>
+          <div style={{ position:'absolute', width:'120%', height:'120%', top:'-10%', left:'-10%', background:'radial-gradient(circle at 70% 50%, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
+          <div style={{ position:'absolute', width:'100%', height:'100%', background:'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E")' }} />
+        </div>
 
-        <motion.div style={{ position:'relative', zIndex:2, padding: isMobile ? '0 5%' : '0 7%', maxWidth:780, opacity:heroO }}>
+        <ForetScene />
+
+        <motion.div style={{ position:'relative', zIndex:3, padding: isMobile ? '0 5%' : '0 7%', maxWidth:780, opacity:heroO }}>
           <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.1 }}>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:10, background:'rgba(58,125,68,0.15)', border:'1px solid rgba(58,125,68,0.3)', borderRadius:4, padding:'7px 16px', marginBottom:28 }}>
-              <span style={{ width:6, height:6, borderRadius:'50%', background:'#3A7D44', display:'inline-block' }} />
+            <div style={{ display:'inline-flex', alignItems:'center', gap:10, background:'rgba(58,125,68,0.3)', border:'1px solid rgba(58,125,68,0.5)', borderRadius:4, padding:'7px 16px', marginBottom:28 }}>
+              <span style={{ width:6, height:6, borderRadius:'50%', background:'#4CAF50', display:'inline-block' }} />
               <span style={{ fontSize:11, fontWeight:700, letterSpacing:'0.3em', textTransform:'uppercase', color:'rgba(255,255,255,0.8)' }}>
                 {t('hero_badge', l)}
               </span>
@@ -86,7 +88,7 @@ export default function Home() {
 
           <motion.h1 initial={{ opacity:0, y:40 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }}
             style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 'clamp(38px,10vw,56px)' : 'clamp(52px,6vw,88px)', color:'#fff', letterSpacing:'-0.03em', lineHeight:1.0, marginBottom:22 }}>
-            LE PARC<br/><span style={{ color:'#4CAF50' }}>DES PERROQUETS</span>
+            LE PARC<br/><span style={{ color:'#66BB6A' }}>DES PERROQUETS</span>
           </motion.h1>
 
           <motion.p initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.35 }}
@@ -105,28 +107,11 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Flying parrot */}
-        {!isMobile && (
-          <motion.div
-            initial={{ opacity:0, x:150, rotate:20, scale:0.4 }}
-            animate={{ opacity:1, x:0, rotate:0, scale:1 }}
-            transition={{ duration:1.2, delay:0.3, ease:[0.16,1,0.3,1] }}
-            style={{
-              position:'absolute', right:'6%', top:'50%', marginTop:-80,
-              zIndex:3, fontSize:120, lineHeight:1, pointerEvents:'none',
-              filter:'drop-shadow(0 20px 40px rgba(0,0,0,0.35))',
-              animation:'float 3s ease-in-out infinite',
-              animationDelay:'1.5s',
-            }}>
-            🦜
-          </motion.div>
-        )}
-
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity:0 }}
           animate={{ opacity:1 }}
-          transition={{ delay:1.5, duration:0.6 }}
+          transition={{ delay:1.8, duration:0.6 }}
           style={{ position:'absolute', bottom: isMobile ? 60 : 70, left:'50%', transform:'translateX(-50%)', zIndex:3, display:'flex', flexDirection:'column', alignItems:'center', gap:4, pointerEvents:'none' }}>
           <span style={{ fontSize:10, fontWeight:700, letterSpacing:'0.3em', textTransform:'uppercase', color:'rgba(255,255,255,0.35)' }}>
             {l==='fr'?'Défiler':l==='nl'?'Scrollen':l==='en'?'Scroll':'Défiler'}
@@ -138,14 +123,14 @@ export default function Home() {
         </motion.div>
 
         <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ delay:0.8, duration:0.6 }}
-          style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(0,0,0,0.7)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(255,255,255,0.08)', padding: isMobile ? '16px 5%' : '22px 7%', display:'flex', justifyContent:'space-around', gap:16, flexWrap:'wrap' }}>
+          style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(10,25,15,0.85)', backdropFilter:'blur(20px)', borderTop:'1px solid rgba(255,255,255,0.08)', padding: isMobile ? '16px 5%' : '22px 7%', display:'flex', justifyContent:'space-around', gap:16, flexWrap:'wrap' }}>
           {[
             { value:'8+', label:t('hero_stat1', l) },
             { value:'4.9 ★', label:t('hero_stat2', l) },
             { value:'150+', label:t('hero_stat3', l) },
           ].map(({ value, label }) => (
             <div key={label} style={{ textAlign:'center' }}>
-              <div style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 22 : 30, color:'#4CAF50', lineHeight:1 }}>{value}</div>
+              <div style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize: isMobile ? 22 : 30, color:'#66BB6A', lineHeight:1 }}>{value}</div>
               <div style={{ fontSize: isMobile ? 10 : 12, color:'rgba(255,255,255,0.45)', marginTop:4, fontWeight:600, letterSpacing:'0.05em' }}>{label}</div>
             </div>
           ))}
