@@ -2,19 +2,19 @@ import { useState, useEffect } from 'react';
 import { useBreakpoint } from '../hooks';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { puppyAPI, reservationAPI } from '../services/api';
+import { parrotAPI, reservationAPI } from '../services/api';
 import { useToastStore, useLangStore, useThemeStore } from '../store';
 import { formatEuro, getAgeString, formatDate } from '../utils/helpers';
 import { Loader } from '../components/UI';
 import { t } from '../utils/i18n';
 
 const INFO_TITLE = {
-  fr: 'À propos de ce chiot',
-  nl: 'Over deze puppy',
-  en: 'About this puppy',
+  fr: 'À propos de ce perroquet',
+  nl: 'Over deze papegaai',
+  en: 'About this parrot',
 };
 
-export default function PuppyDetails() {
+export default function ParrotDetails() {
   const { slug } = useParams();
   const id = slug;
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function PuppyDetails() {
   const { theme } = useThemeStore();
   const isDark = theme === 'dark';
 
-  const [puppy, setPuppy] = useState(null);
+  const [parrot, setParrot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImg, setActiveImg] = useState(0);
   const [showReserve, setShowReserve] = useState(false);
@@ -45,8 +45,8 @@ export default function PuppyDetails() {
 
   useEffect(() => {
     setLoading(true);
-    puppyAPI.getById(id)
-      .then(r => { setPuppy(r.data.puppy); setLoading(false); })
+    parrotAPI.getById(id)
+      .then(r => { setParrot(r.data.parrot); setLoading(false); })
       .catch(() => { setLoading(false); navigate('/catalog'); });
   }, [id]);
 
@@ -55,11 +55,12 @@ export default function PuppyDetails() {
       <Loader text="Chargement..." />
     </div>
   );
-  if (!puppy) return null;
+  if (!parrot) return null;
 
-  const images = [puppy.imageUrl, puppy.imageUrl2, puppy.imageUrl3, puppy.imageUrl4, puppy.imageUrl5].filter(Boolean);
+  const images = [parrot.imageUrl, parrot.imageUrl2, parrot.imageUrl3, parrot.imageUrl4, parrot.imageUrl5].filter(Boolean);
   const l = lang || 'fr';
-  const isAvailable = puppy.status !== 'sold';
+  const isAvailable = parrot.status !== 'sold';
+  const isCouple = parrot.saleType === 'couple';
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, paddingTop: 76 }}>
@@ -77,7 +78,7 @@ export default function PuppyDetails() {
             {l==='fr'?'Catalogue':l==='nl'?'Catalogus':l==='en'?'Catalog':'Catalogue'}
           </Link>
           <span style={{ margin: '0 10px', opacity: 0.3 }}>▸</span>
-          <span style={{ color: C.text2 }}>{puppy.name}</span>
+          <span style={{ color: C.text2 }}>{parrot.name}{isCouple && parrot.partnerName ? ` & ${parrot.partnerName}` : ''}</span>
         </p>
       </div>
 
@@ -86,8 +87,8 @@ export default function PuppyDetails() {
           <div>
             <motion.div key={activeImg} initial={{ opacity: 0.7, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
               style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', aspectRatio: '4/3', background: C.card, boxShadow: C.shadow }}>
-              <img src={images[activeImg] || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&q=80'}
-                alt={puppy.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={images[activeImg] || 'https://images.unsplash.com/photo-1515003197210-e0cd718b72b5?w=800&q=80'}
+                alt={parrot.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               {images.length > 1 && (
                 <div style={{ position: 'absolute', bottom: 14, right: 14, background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 20, backdropFilter: 'blur(4px)' }}>
                   {activeImg + 1} / {images.length}
@@ -109,27 +110,35 @@ export default function PuppyDetails() {
           </div>
 
           <div>
-            <div style={{ marginBottom: 6 }}>
+            <div style={{ marginBottom: 6, display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.primary }}>
-                {puppy.breed}
-                {puppy.breed === 'Canis Vulgaris' && <span style={{fontSize:10,fontWeight:600,color:C.text3,marginLeft:8,letterSpacing:'0.1em'}}>({t('canis_hint', l)})</span>}
+                {parrot.species}
               </span>
+              {isCouple && (
+                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', background: 'rgba(201,118,46,0.8)', padding: '3px 10px', borderRadius: 4 }}>
+                  ❤️ {t('couple', l)}
+                </span>
+              )}
             </div>
             <h1 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: isMobile ? 36 : 52, color: C.text, letterSpacing: '-0.02em', lineHeight: 1, marginBottom: 20 }}>
-              {puppy.name}
+              {parrot.name}{isCouple && parrot.partnerName ? <span style={{ color: C.text3, fontWeight: 400 }}> & {parrot.partnerName}</span> : ''}
             </h1>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 28 }}>
               <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: 40, color: C.text, letterSpacing: '-0.02em' }}>
-                {formatEuro(puppy.price)}
+                {formatEuro(parrot.price)}
               </span>
+              {isCouple && <span style={{ fontSize: 14, color: C.text3 }}>pour le couple</span>}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 24 }}>
               {[
-                { label: l==='fr'?'Sexe':l==='nl'?'Geslacht':l==='en'?'Gender':'Sexe', value: puppy.sex === 'Male' ? t('male', l) : t('female', l), icon: puppy.sex === 'Male' ? '♂' : '♀' },
-                { label: t('birth_date', l), value: puppy.birthDate ? formatDate(puppy.birthDate) + ' (' + getAgeString(puppy.birthDate, l) + ')' : 'N/A', icon: '📅' },
-
+                { label: l==='fr'?'Sexe':l==='nl'?'Geslacht':l==='en'?'Gender':'Sexe', value: parrot.sex === 'Male' ? t('male', l) : t('female', l), icon: parrot.sex === 'Male' ? '♂' : '♀' },
+                { label: t('birth_date', l), value: parrot.birthDate ? formatDate(parrot.birthDate) + ' (' + getAgeString(parrot.birthDate, l) + ')' : 'N/A', icon: '📅' },
+                { label: t('color_label', l), value: parrot.color || 'N/A', icon: '🎨' },
+                { label: t('ring_number', l), value: parrot.ringNumber || 'N/A', icon: '🔗' },
+                { label: t('sale_type', l), value: isCouple ? t('couple', l) : t('solo', l), icon: isCouple ? '💑' : '🦜' },
+                { label: t('hand_fed', l), value: parrot.handFed ? (l==='fr'?'Oui':l==='nl'?'Ja':'Yes') : (l==='fr'?'Non':l==='nl'?'Nee':'No'), icon: '🤲' },
               ].map(({ label, value, icon }) => (
                 <div key={label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: isMobile ? '14px 16px' : '16px 18px', display: 'flex', alignItems: 'center', gap: 12 }}>
                   <span style={{ fontSize: 24, opacity: 0.8 }}>{icon}</span>
@@ -141,13 +150,13 @@ export default function PuppyDetails() {
               ))}
             </div>
 
-            {puppy.description && (
+            {parrot.description && (
               <div style={{ marginBottom: 28 }}>
                 <h3 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: isMobile ? 20 : 24, color: C.text, letterSpacing: '-0.02em', marginBottom: 14, lineHeight: 1.2 }}>
                   {INFO_TITLE[l] || INFO_TITLE.fr}
                 </h3>
                 <p style={{ fontSize: 15, color: C.text2, lineHeight: 1.75, borderLeft: '3px solid rgba(201,118,46,0.4)', paddingLeft: 18 }}>
-                  {puppy.description}
+                  {parrot.description}
                 </p>
               </div>
             )}
@@ -164,11 +173,10 @@ export default function PuppyDetails() {
                 }}
                 onMouseOver={e => { e.currentTarget.style.background='linear-gradient(135deg,#A8652A,#8B5522)'; e.currentTarget.style.transform='scale(1.02)'; }}
                 onMouseOut={e => { e.currentTarget.style.background='linear-gradient(135deg,#C9762E,#A8652A)'; e.currentTarget.style.transform='scale(1)'; }}>
-                🐶 {t('reserve_btn', l)}
+                🦜 {t('reserve_btn', l)}
               </button>
             ) : null}
 
-            {/* Reservation form */}
             {showReserve && isAvailable && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                 style={{ marginTop: 20, background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: 24 }}>
@@ -185,7 +193,7 @@ export default function PuppyDetails() {
                     setReserving(true);
                     const data = Object.fromEntries(fd);
                     const res = await reservationAPI.create({
-                      puppyId: puppy.id,
+                      parrotId: parrot.id,
                       guestName: data.name,
                       guestEmail: data.email,
                       guestPhone: data.phone,
@@ -212,7 +220,7 @@ export default function PuppyDetails() {
                     <p style={{ fontSize:12, fontWeight:700, color:C.text2, margin:0 }}>{t('payment_full', l)}</p>
                     <p style={{ fontSize:11, color:C.text3, margin:0 }}>{t('payment_full_sub', l)}</p>
                     <div style={{ fontSize:15, fontWeight:900, color:C.primary }}>
-                      {formatEuro(puppy.price)} → <span style={{ color:'#22C55E' }}>{formatEuro(Math.round(puppy.price * 0.85))}</span>
+                      {formatEuro(parrot.price)} → <span style={{ color:'#22C55E' }}>{formatEuro(Math.round(parrot.price * 0.85))}</span>
                       <span style={{ fontSize:11, fontWeight:700, color:'#22C55E', marginLeft:6 }}>(-15%)</span>
                     </div>
                   </div>
@@ -223,7 +231,7 @@ export default function PuppyDetails() {
                       <span style={{ fontSize:14, fontWeight:700, color:C.text }}>{t('payment_deposit', l)}</span>
                       <p style={{ fontSize:11, color:C.text3, margin:'2px 0 0' }}>{t('payment_deposit_sub', l)}</p>
                       <div style={{ fontSize:14, fontWeight:800, color:C.primary, marginTop:4 }}>
-                        {formatEuro(Math.round(puppy.price * 0.5))} · {formatEuro(puppy.price - Math.round(puppy.price * 0.5))} {t('balance', l)}
+                        {formatEuro(Math.round(parrot.price * 0.5))} · {formatEuro(parrot.price - Math.round(parrot.price * 0.5))} {t('balance', l)}
                       </div>
                     </div>
                   </label>
@@ -234,7 +242,7 @@ export default function PuppyDetails() {
                       <span style={{ fontSize:14, fontWeight:700, color:C.text }}>{t('payment_full', l)}</span>
                       <p style={{ fontSize:11, color:C.text3, margin:'2px 0 0' }}>{t('payment_full_sub', l)}</p>
                       <div style={{ fontSize:14, fontWeight:800, color:'#22C55E', marginTop:4 }}>
-                        {formatEuro(Math.round(puppy.price * 0.85))}
+                        {formatEuro(Math.round(parrot.price * 0.85))}
                       </div>
                     </div>
                   </label>
@@ -263,15 +271,15 @@ export default function PuppyDetails() {
 
                   <textarea name="notes" rows={3} placeholder={t('notes_ph', l)} className="input-luxury" />
                   <button type="submit" disabled={reserving} className="btn-primary" style={{ justifyContent: 'center', padding: '14px' }}>
-                    {reserving ? '⏳...' : `🐶 ${t('confirm_reservation', l)}`}
+                    {reserving ? '⏳...' : `🦜 ${t('confirm_reservation', l)}`}
                   </button>
                 </form>
               </motion.div>
             )}
 
-            {puppy.availableFrom && (
+            {parrot.availableFrom && (
               <p style={{ textAlign:'center', fontSize:12, color: C.text3, marginTop: 12 }}>
-                {t('available_from', l)} : {formatDate(puppy.availableFrom)}
+                {t('available_from', l)} : {formatDate(parrot.availableFrom)}
               </p>
             )}
           </div>
@@ -285,17 +293,17 @@ export default function PuppyDetails() {
               {l==='fr'?'Santé & Origine':l==='nl'?'Gezondheid & Herkomst':l==='en'?'Health & Origin':'Santé & Origine'}
             </span>
             <h2 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: isMobile ? 28 : 42, color: C.text, letterSpacing: '-0.02em', marginTop: 8 }}>
-              {l==='fr'?'Tous nos chiots sont en parfaite santé':l==='nl'?'Al onze puppy’s zijn in perfecte gezondheid':l==='en'?'All our puppies are in perfect health':'Tous nos chiots sont en parfaite santé'}
+              {l==='fr'?'Tous nos perroquets sont en parfaite santé':l==='nl'?'Al onze papegaaien zijn in perfecte gezondheid':l==='en'?'All our parrots are in perfect health':'Tous nos perroquets sont en parfaite santé'}
             </h2>
           </div>
 
           <div style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 16, padding: isMobile ? 24 : 32, marginBottom: 24, boxShadow: C.shadow }}>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16, marginBottom: 24 }}>
               {[
-                { icon: '📜', title: t('pedigree', l), value: puppy.pedigreeDocUrl || l==='fr'?'Inclus LOSH':l==='nl'?'Inclusief LOSH':l==='en'?'LOSH included':'Inclus LOSH' },
-                { icon: '📋', title: t('vaccination', l), desc: puppy.vaccinationStatus || l==='fr'?'Vaccins à jour (CHPPiLR)':l==='nl'?'Vaccinaties up-to-date (CHPPiLR)':l==='en'?'Up-to-date vaccines (CHPPiLR)':'Vaccins à jour (CHPPiLR)' },
-                { icon: '🐶', title: t('deworming', l), desc: puppy.dewormingStatus || l==='fr'?'Vermifuge régulier':l==='nl'?'Regelmatige ontworming':l==='en'?'Regular deworming':'Vermifuge régulier' },
-                { icon: '💜', title: t('microchip', l), value: puppy.microchipNumber || l==='fr'?'Puce électronique incluse':l==='nl'?'Microchip inbegrepen':l==='en'?'Microchip included':'Puce électronique incluse' },
+                { icon: '📜', title: t('pedigree', l), value: parrot.pedigreeDocUrl || (l==='fr'?'Inclus pedigree':l==='nl'?'Inclusief stamboom':l==='en'?'Pedigree included':'Inclus pedigree') },
+                { icon: '🔗', title: t('ring_number', l), value: parrot.ringNumber || (l==='fr'?'Bague fermée incluse':l==='nl'?'Gesloten ring inbegrepen':l==='en'?'Closed ring included':'Bague fermée incluse') },
+                { icon: '🤲', title: t('hand_fed', l), value: parrot.handFed ? (l==='fr'?'Nourri à la main':l==='nl'?'Met de hand gevoed':l==='en'?'Hand-fed':'Nourri à la main') : (l==='fr'?'Nourri par les parents':l==='nl'?'Door ouders gevoed':l==='en'?'Parent-fed':'Nourri par les parents') },
+                { icon: '💜', title: t('talking', l), value: parrot.talkingAbility || (l==='fr'?'En développement':l==='nl'?'In ontwikkeling':l==='en'?'Developing':'En développement') },
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: 16, padding: '20px', background: C.card2, borderRadius: 12 }}>
                   <div style={{ width: 52, height: 52, borderRadius: 12, background: 'linear-gradient(135deg,rgba(201,118,46,0.15),rgba(201,118,46,0.05))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 26, flexShrink: 0 }}>
@@ -303,7 +311,7 @@ export default function PuppyDetails() {
                   </div>
                   <div>
                     <h5 style={{ fontSize: 15, fontWeight: 700, color: C.text, marginBottom: 6 }}>{item.title}</h5>
-                    <p style={{ fontSize: 14, color: C.text3, lineHeight: 1.5 }}>{item.value || item.desc}</p>
+                    <p style={{ fontSize: 14, color: C.text3, lineHeight: 1.5 }}>{item.value}</p>
                   </div>
                 </div>
               ))}
@@ -313,13 +321,44 @@ export default function PuppyDetails() {
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
               <div style={{ background: C.card2, borderRadius: 12, padding: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.text3, marginBottom: 8 }}>{t('mother', l)}</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{puppy.parentMotherName || 'N/A'}</p>
+                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.parentMotherName || 'N/A'}</p>
               </div>
               <div style={{ background: C.card2, borderRadius: 12, padding: 20 }}>
                 <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.text3, marginBottom: 8 }}>{t('father', l)}</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{puppy.parentFatherName || 'N/A'}</p>
+                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.parentFatherName || 'N/A'}</p>
               </div>
             </div>
+
+            {/* Partner info if couple */}
+            {isCouple && parrot.partnerName && (
+              <div style={{ marginTop: 20, padding: 20, background: 'linear-gradient(135deg,rgba(201,118,46,0.06),rgba(201,118,46,0.02))', borderRadius: 12, border: '1px solid rgba(201,118,46,0.15)' }}>
+                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.primary, marginBottom: 12 }}>
+                  ❤️ {l==='fr'?'Informations sur le couple':l==='nl'?'Informatie over het koppel':l==='en'?'Couple information':'Informations sur le couple'}
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
+                  <div>
+                    <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{l==='fr'?'Partenaire':l==='nl'?'Partner':l==='en'?'Partner':'Partenaire'}</p>
+                    <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerName}</p>
+                  </div>
+                  <div>
+                    <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{l==='fr'?'Sexe':l==='nl'?'Geslacht':l==='en'?'Sex':'Sexe'}</p>
+                    <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerSex === 'Male' ? t('male', l) : t('female', l)}</p>
+                  </div>
+                  {parrot.partnerBirthDate && (
+                    <div>
+                      <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{t('birth_date', l)}</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{formatDate(parrot.partnerBirthDate)}</p>
+                    </div>
+                  )}
+                  {parrot.partnerColor && (
+                    <div>
+                      <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{t('color_label', l)}</p>
+                      <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerColor}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </motion.div>
       </div>

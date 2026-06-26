@@ -103,16 +103,16 @@ export default function Navbar() {
             color: scrolled ? (isDark ? '#fff' : '#111') : isHero ? '#fff' : (isDark ? '#fff' : '#111'),
             letterSpacing: '0.05em', transition: 'color 0.3s',
           }}>
-            ANIMAL CONCEPT SRL
+            Le Parc des Perroquets
           </div>
           <div style={{ fontSize: 9, letterSpacing: '0.4em', color: 'var(--primary)', textTransform: 'uppercase', marginTop: 2 }}>
-            Oupeye · Belgique
+            Bren · Drôme
           </div>
         </Link>
 
         {!isMobile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 28, position: 'relative', zIndex: 1 }}>
-            <NavLink to="/catalog"     label={t('nav_puppies', lang)} />
+            <NavLink to="/catalog"     label={t('nav_parrots', lang)} />
             <NavLink to="/catalog"     label={t('nav_kennel', lang)} />
 
             <NavLink to="/track"       label={t('nav_track', lang)} />
@@ -179,7 +179,7 @@ export default function Navbar() {
                   {isMobile && (
                     <div style={{ marginBottom: 20 }}>
                       {[
-                        { to: '/catalog', icon: '🐶', label: t('nav_puppies', lang) },
+                        { to: '/catalog', icon: '🦜', label: t('nav_parrots', lang) },
 
                         { to: '/track',   icon: '📍', label: t('nav_track', lang) },
                       ].map(({ to, icon, label }) => (

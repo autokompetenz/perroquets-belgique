@@ -5,8 +5,8 @@ import { t } from '../utils/i18n';
 const links = [
   { to: '/admin', exact: true, icon: '⊞', label: 'Dashboard' },
   { to: '/admin/reservations', icon: '📋', label: 'Réservations' },
-  { to: '/admin/puppies', icon: '🐶', label: 'Chiots' },
-  { to: '/admin/puppies/new', icon: '＋', label: 'Ajouter un chiot' },
+  { to: '/admin/parrots', icon: '🦜', label: 'Perroquets' },
+  { to: '/admin/parrots/new', icon: '＋', label: 'Ajouter un perroquet' },
   { to: '/admin/clients', icon: '👥', label: 'Clients' },
   { to: '/admin/waitlist', icon: '⏳', label: "Liste d'attente" },
 ];

@@ -5,8 +5,8 @@ import { useToastStore } from '../../store';
 import { formatEuro } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 
-export default function AdminPuppies() {
-  const [puppies, setPuppies] = useState([]);
+export default function AdminParrots() {
+  const [parrots, setParrots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const { addToast } = useToastStore();
@@ -16,9 +16,9 @@ export default function AdminPuppies() {
   const load = () => {
     setLoading(true);
     setLoadError(false);
-    adminAPI.puppies()
-      .then(r => { setPuppies(Array.isArray(r.data?.puppies) ? r.data.puppies : []); setLoading(false); })
-      .catch(() => { setPuppies([]); setLoadError(true); setLoading(false); });
+    adminAPI.parrots()
+      .then(r => { setParrots(Array.isArray(r.data?.parrots) ? r.data.parrots : []); setLoading(false); })
+      .catch(() => { setParrots([]); setLoadError(true); setLoading(false); });
   };
 
   useEffect(load, []);
@@ -30,26 +30,26 @@ export default function AdminPuppies() {
     }
   }, []);
 
-  const handleToggle = async (puppy) => {
+  const handleToggle = async (parrot) => {
     try {
-      const { data } = await adminAPI.togglePuppy(puppy.id);
-      setPuppies(prev => prev.map(p => p.id === puppy.id ? data.puppy : p));
+      const { data } = await adminAPI.toggleParrot(parrot.id);
+      setParrots(prev => prev.map(p => p.id === parrot.id ? data.parrot : p));
       addToast(data.message || 'Statut mis à jour', 'success');
     } catch { addToast('Erreur', 'error'); }
   };
 
-  const handleDelete = async (puppy) => {
-    if (!window.confirm(`Supprimer définitivement ${puppy.name} ? Cette action est irréversible.`)) return;
+  const handleDelete = async (parrot) => {
+    if (!window.confirm(`Supprimer définitivement ${parrot.name} ? Cette action est irréversible.`)) return;
     try {
-      await adminAPI.deletePuppy(puppy.id);
-      setPuppies(prev => prev.filter(p => p.id !== puppy.id));
-      addToast('Chiot supprimé', 'success');
+      await adminAPI.deleteParrot(parrot.id);
+      setParrots(prev => prev.filter(p => p.id !== parrot.id));
+      addToast('Perroquet supprimé', 'success');
     } catch (err) {
       addToast(err.response?.data?.error || 'Suppression impossible', 'error');
     }
   };
 
-  if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement des chiots..." /></div>;
+  if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement des perroquets..." /></div>;
 
   return (
     <div style={{ padding: 'clamp(24px,5vw,48px) clamp(16px,4vw,44px) 60px', minHeight: '100vh', background: 'var(--bg)' }}>
@@ -57,27 +57,27 @@ export default function AdminPuppies() {
         <div>
           <div className="section-eyebrow">Inventaire</div>
           <h1 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 900, fontSize: 'clamp(28px,4vw,48px)', color: 'var(--text)', letterSpacing: '-0.02em' }}>
-            Chiots <span style={{ color: 'var(--text-3)', fontSize: '0.55em', fontWeight: 600 }}>({puppies.length})</span>
+            Perroquets <span style={{ color: 'var(--text-3)', fontSize: '0.55em', fontWeight: 600 }}>({parrots.length})</span>
           </h1>
         </div>
-        <Link to="/admin/puppies/new" className="btn-primary" style={{ fontSize: 14, padding: '14px 24px', alignSelf: 'flex-end' }}>
-          + Ajouter un chiot
+        <Link to="/admin/parrots/new" className="btn-primary" style={{ fontSize: 14, padding: '14px 24px', alignSelf: 'flex-end' }}>
+          + Ajouter un perroquet
         </Link>
       </div>
 
       {loadError && (
         <div style={{ marginBottom: 24, padding: 20, borderRadius: 12, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
-          <p style={{ color: '#EF4444', fontWeight: 600, marginBottom: 12 }}>Impossible de charger les chiots.</p>
+          <p style={{ color: '#EF4444', fontWeight: 600, marginBottom: 12 }}>Impossible de charger les perroquets.</p>
           <button type="button" className="btn-ghost" onClick={load}>Réessayer</button>
         </div>
       )}
 
-      {puppies.length === 0 && !loadError ? (
+      {parrots.length === 0 && !loadError ? (
         <div style={{ textAlign: 'center', padding: '60px 24px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12 }}>
-          <p style={{ fontSize: 48, marginBottom: 16 }}>🐶</p>
-          <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Aucun chiot</p>
-          <p style={{ color: 'var(--text-3)', marginBottom: 24 }}>Ajoutez votre premier chiot au catalogue.</p>
-          <Link to="/admin/puppies/new" className="btn-primary">+ Ajouter un chiot</Link>
+          <p style={{ fontSize: 48, marginBottom: 16 }}>🦜</p>
+          <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 8 }}>Aucun perroquet</p>
+          <p style={{ color: 'var(--text-3)', marginBottom: 24 }}>Ajoutez votre premier perroquet au catalogue.</p>
+          <Link to="/admin/parrots/new" className="btn-primary">+ Ajouter un perroquet</Link>
         </div>
       ) : (
         <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, overflow: 'hidden', boxShadow: 'var(--shadow-sm)' }}>
@@ -85,54 +85,54 @@ export default function AdminPuppies() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  {['Photo', 'Nom', 'Race', 'Prix', 'Statut', 'Actif', 'Actions'].map(h => (
+                  {['Photo', 'Nom', 'Espèce', 'Prix', 'Statut', 'Actif', 'Actions'].map(h => (
                     <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '14px 20px', background: 'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {puppies.map(puppy => (
-                  <tr key={puppy.id} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.2s var(--ease)' }}
+                {parrots.map(parrot => (
+                  <tr key={parrot.id} style={{ borderBottom: '1px solid var(--border)', transition: 'background 0.2s var(--ease)' }}
                     onMouseOver={e => e.currentTarget.style.background = 'var(--bg-card2)'}
                     onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                     <td style={{ padding: '14px 20px' }}>
-                      {puppy.imageUrl ? (
-                        <img src={puppy.imageUrl} alt="" style={{ width: 88, height: 64, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)' }} />
+                      {parrot.imageUrl ? (
+                        <img src={parrot.imageUrl} alt="" style={{ width: 88, height: 64, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--border)' }} />
                       ) : (
                         <div style={{ width: 88, height: 64, borderRadius: 10, background: 'var(--bg-card2)', border: '1px solid var(--border)' }} />
                       )}
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                        <p style={{ fontWeight: 800, color: 'var(--text)', fontSize: 16 }}>{puppy.name}</p>
-                        {puppy.featured && (
+                        <p style={{ fontWeight: 800, color: 'var(--text)', fontSize: 16 }}>{parrot.name}{parrot.saleType === 'couple' && parrot.partnerName ? ` & ${parrot.partnerName}` : ''}</p>
+                        {parrot.featured && (
                           <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--primary-bg)', color: 'var(--primary)', border: '1px solid var(--primary-border)', padding: '3px 10px', borderRadius: 6, letterSpacing: '0.1em' }}>★ NOUVEAU</span>
                         )}
                       </div>
                     </td>
-                    <td style={{ padding: '14px 20px', color: 'var(--text-2)', fontSize: 14, fontWeight: 600 }}>{puppy.breed}</td>
-                    <td style={{ padding: '14px 20px', fontWeight: 800, color: 'var(--primary)', fontSize: 17, letterSpacing: '-0.01em' }}>{formatEuro(puppy.price)}</td>
+                    <td style={{ padding: '14px 20px', color: 'var(--text-2)', fontSize: 14, fontWeight: 600 }}>{parrot.species}</td>
+                    <td style={{ padding: '14px 20px', fontWeight: 800, color: 'var(--primary)', fontSize: 17, letterSpacing: '-0.01em' }}>{formatEuro(parrot.price)}</td>
                     <td style={{ padding: '14px 20px' }}>
                       <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em',
-                        background: puppy.status === 'available' ? 'rgba(34,197,94,0.12)' : puppy.status === 'reserved' ? 'rgba(250,204,21,0.12)' : 'rgba(239,68,68,0.1)',
-                        color: puppy.status === 'available' ? '#22C55E' : puppy.status === 'reserved' ? '#EAB308' : '#EF4444',
-                        border: `1px solid ${puppy.status === 'available' ? 'rgba(34,197,94,0.28)' : puppy.status === 'reserved' ? 'rgba(250,204,21,0.28)' : 'rgba(239,68,68,0.25)'}` }}>{puppy.status}</span>
+                        background: parrot.status === 'available' ? 'rgba(34,197,94,0.12)' : parrot.status === 'reserved' ? 'rgba(250,204,21,0.12)' : 'rgba(239,68,68,0.1)',
+                        color: parrot.status === 'available' ? '#22C55E' : parrot.status === 'reserved' ? '#EAB308' : '#EF4444',
+                        border: `1px solid ${parrot.status === 'available' ? 'rgba(34,197,94,0.28)' : parrot.status === 'reserved' ? 'rgba(250,204,21,0.28)' : 'rgba(239,68,68,0.25)'}` }}>{parrot.status}</span>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em', background: puppy.isActive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.1)', color: puppy.isActive ? '#22C55E' : '#EF4444', border: `1px solid ${puppy.isActive ? 'rgba(34,197,94,0.28)' : 'rgba(239,68,68,0.25)'}` }}>
-                        {puppy.isActive ? 'Actif' : 'Inactif'}
+                      <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em', background: parrot.isActive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.1)', color: parrot.isActive ? '#22C55E' : '#EF4444', border: `1px solid ${parrot.isActive ? 'rgba(34,197,94,0.28)' : 'rgba(239,68,68,0.25)'}` }}>
+                        {parrot.isActive ? 'Actif' : 'Inactif'}
                       </span>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-                        <Link to={`/admin/puppies/${puppy.id}/edit`} className="admin-table-btn" style={{ fontSize: 13, color: 'var(--primary)', textDecoration: 'none', fontWeight: 800 }}>
+                        <Link to={`/admin/parrots/${parrot.id}/edit`} className="admin-table-btn" style={{ fontSize: 13, color: 'var(--primary)', textDecoration: 'none', fontWeight: 800 }}>
                           Modifier
                         </Link>
-                        <button type="button" onClick={() => handleToggle(puppy)}
-                          className="admin-table-btn" style={{ fontSize: 13, color: puppy.isActive ? '#DC2626' : '#22C55E', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit',sans-serif", fontWeight: 700 }}>
-                          {puppy.isActive ? 'Désactiver' : 'Activer'}
+                        <button type="button" onClick={() => handleToggle(parrot)}
+                          className="admin-table-btn" style={{ fontSize: 13, color: parrot.isActive ? '#DC2626' : '#22C55E', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit',sans-serif", fontWeight: 700 }}>
+                          {parrot.isActive ? 'Désactiver' : 'Activer'}
                         </button>
-                        <button type="button" onClick={() => handleDelete(puppy)}
+                        <button type="button" onClick={() => handleDelete(parrot)}
                           className="admin-table-btn-danger" style={{ fontSize: 13, color: '#991B1B', background: 'none', border: 'none', cursor: 'pointer', fontFamily: "'Outfit',sans-serif", fontWeight: 800 }}>
                           Supprimer
                         </button>

@@ -1,17 +1,17 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
-import { puppyAPI } from '../services/api';
-import PuppyCard from '../components/PuppyCard';
+import { parrotAPI } from '../services/api';
+import ParrotCard from '../components/ParrotCard';
 import { Loader } from '../components/UI';
 import { useLangStore } from '../store';
 import { t } from '../utils/i18n';
 import { useBreakpoint } from '../hooks';
-import { BREEDS } from '../utils/helpers';
+import { SPECIES } from '../utils/helpers';
 
 export default function Catalog() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [puppies, setPuppies] = useState([]);
+  const [parrots, setParrots] = useState([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -19,25 +19,25 @@ export default function Catalog() {
   const { isMobile, isTablet } = useBreakpoint();
   const l = lang || 'fr';
 
-  const breed = searchParams.get('breed') || 'all';
+  const species = searchParams.get('species') || 'all';
   const search = searchParams.get('search') || '';
   const sort = searchParams.get('sort') || '';
 
-  const fetchPuppies = useCallback(async () => {
+  const fetchParrots = useCallback(async () => {
     setLoading(true);
     try {
       const params = {};
-      if (breed !== 'all') params.breed = breed;
+      if (species !== 'all') params.species = species;
       if (search) params.search = search;
       if (sort) params.sort = sort;
-      const { data } = await puppyAPI.getAll(params);
-      setPuppies(data.puppies || []);
+      const { data } = await parrotAPI.getAll(params);
+      setParrots(data.parrots || []);
       setTotal(data.total || 0);
     } catch(e){ console.error(e); }
     finally { setLoading(false); }
-  }, [breed, search, sort]);
+  }, [species, search, sort]);
 
-  useEffect(() => { fetchPuppies(); }, [fetchPuppies]);
+  useEffect(() => { fetchParrots(); }, [fetchParrots]);
 
   const setFilter = (key, val) => {
     const next = new URLSearchParams(searchParams);
@@ -67,20 +67,20 @@ export default function Catalog() {
 
       <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:10, overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
         <p style={{ fontSize:10, fontWeight:800, letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--primary)', padding:'14px 16px 8px' }}>
-          {l==='fr'?'Races':l==='nl'?'Rassen':l==='en'?'Breeds':'Races'}
+          {l==='fr'?'Espèces':l==='nl'?'Soorten':l==='en'?'Species':'Espèces'}
         </p>
-        {[{ id:'all', label: t('all_breeds', l), count:total }, ...BREEDS.map(b => ({ id:b, label:b, count: puppies.filter(p => p.breed === b).length || 0 }))].map(({ id, label, count }) => (
-          <button key={id} onClick={() => setFilter('breed', id === 'all' ? '' : id)}
-            style={{ width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 16px', background:breed===id?'var(--primary-bg)':'transparent', border:'none', borderLeft:`3px solid ${breed===id?'var(--primary)':'transparent'}`, color:breed===id?'var(--primary)':'var(--text-3)', fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:breed===id?700:400, cursor:'pointer', transition:'all 0.15s', textAlign:'left' }}
-            onMouseOver={e=>{ if(breed!==id){ e.currentTarget.style.background='var(--bg-card2)'; e.currentTarget.style.color='var(--text)'; } }}
-            onMouseOut={e=>{ if(breed!==id){ e.currentTarget.style.background='transparent'; e.currentTarget.style.color='var(--text-3)'; } }}>
+        {[{ id:'all', label: t('all_species', l), count:total }, ...SPECIES.map(b => ({ id:b, label:b, count: parrots.filter(p => p.species === b).length || 0 }))].map(({ id, label, count }) => (
+          <button key={id} onClick={() => setFilter('species', id === 'all' ? '' : id)}
+            style={{ width:'100%', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 16px', background:species===id?'var(--primary-bg)':'transparent', border:'none', borderLeft:`3px solid ${species===id?'var(--primary)':'transparent'}`, color:species===id?'var(--primary)':'var(--text-3)', fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:species===id?700:400, cursor:'pointer', transition:'all 0.15s', textAlign:'left' }}
+            onMouseOver={e=>{ if(species!==id){ e.currentTarget.style.background='var(--bg-card2)'; e.currentTarget.style.color='var(--text)'; } }}
+            onMouseOut={e=>{ if(species!==id){ e.currentTarget.style.background='transparent'; e.currentTarget.style.color='var(--text-3)'; } }}>
             <span>{label}</span>
             {count > 0 && <span style={{ fontSize:12, opacity:0.45 }}>{count}</span>}
           </button>
         ))}
       </div>
 
-      {(breed !== 'all' || search || sort) && (
+      {(species !== 'all' || search || sort) && (
         <button onClick={resetAll} style={{ width:'100%', padding:'10px', background:'rgba(201,118,46,0.06)', border:'1px solid var(--primary-border)', borderRadius:8, color:'var(--primary)', fontFamily:"'Outfit',sans-serif", fontSize:13, fontWeight:700, cursor:'pointer' }}>
           ✕ {t('reset', l)}
         </button>
@@ -93,10 +93,10 @@ export default function Catalog() {
       <div style={{ background:'var(--bg-card2)', borderBottom:'1px solid var(--border)', padding: isMobile ? '36px 4% 28px' : '52px 6% 36px' }}>
         <div style={{ maxWidth:1400, margin:'0 auto' }}>
           <h1 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:'clamp(30px,5vw,64px)', color:'var(--text)', letterSpacing:'-0.02em', marginBottom:10 }}>
-            {l==='fr'?'Nos chiots':l==='nl'?'Onze puppy’s':l==='en'?'Our puppies':'Nos chiots'}
+            {l==='fr'?'Nos perroquets':l==='nl'?'Onze papegaaien':l==='en'?'Our parrots':'Nos perroquets'}
           </h1>
           <p style={{ fontSize:16, color:'var(--text-3)', maxWidth:560 }}>
-            {l==='fr'?'Découvrez nos chiots disponibles, tous élevés avec amour à Oupeye.':l==='nl'?'Ontdek onze beschikbare puppy’s, allemaal met liefde gefokt in Oupeye.':l==='en'?'Discover our available puppies, all raised with love in Oupeye.':'Découvrez nos chiots disponibles, tous élevés avec amour à Oupeye.'}
+            {l==='fr'?'Découvrez nos perroquets disponibles, tous élevés avec amour à Bren (Drôme).':l==='nl'?'Ontdek onze beschikbare papegaaien, allemaal met liefde gefokt in Bren.':l==='en'?'Discover our available parrots, all raised with love in Bren (Drôme, France).':'Découvrez nos perroquets disponibles, tous élevés avec amour à Bren (Drôme).'}
           </p>
         </div>
       </div>
@@ -120,7 +120,7 @@ export default function Catalog() {
           <div style={{ display:'flex', gap:10, marginBottom:16 }}>
             <button onClick={() => setDrawerOpen(true)}
               style={{ flex:1, display:'flex', alignItems:'center', justifyContent:'center', gap:8, background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:8, padding:'11px 14px', color:'var(--text)', fontFamily:"'Outfit',sans-serif", fontSize:14, fontWeight:700, cursor:'pointer', boxShadow:'var(--shadow-sm)' }}>
-              ☰ {t('filters', l)} {breed !== 'all' && `à ${breed}`}
+              ☰ {t('filters', l)} {species !== 'all' && `à ${species}`}
             </button>
             <SortSelect />
           </div>
@@ -139,7 +139,7 @@ export default function Catalog() {
               <p style={{ fontSize:14, color:'var(--text-3)' }}>
                 <span style={{ color:'var(--primary)', fontWeight:700 }}>{total}</span> {t('found', l)}
               </p>
-              {!isMobile && (breed!=='all'||search||sort) && (
+              {!isMobile && (species!=='all'||search||sort) && (
                 <button onClick={resetAll} style={{ fontSize:13, color:'var(--primary)', background:'none', border:'none', cursor:'pointer', fontFamily:"'Outfit',sans-serif", fontWeight:600, textDecoration:'underline' }}>
                   {t('reset', l)}
                 </button>
@@ -148,7 +148,7 @@ export default function Catalog() {
 
             {loading ? (
               <div style={{ display:'flex', justifyContent:'center', padding:'80px 0' }}><Loader /></div>
-            ) : puppies.length === 0 ? (
+            ) : parrots.length === 0 ? (
               <div style={{ textAlign:'center', padding:'80px 0' }}>
                 <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
                 <h3 style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:24, color:'var(--text)', marginBottom:10 }}>{t('no_results', l)}</h3>
@@ -160,7 +160,7 @@ export default function Catalog() {
             ) : (
               <div style={{ display:'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill,minmax(270px,1fr))', gap: isMobile ? 14 : 22 }}>
                 <AnimatePresence>
-                  {puppies.map((p, i) => <PuppyCard key={p.id} puppy={p} index={i} />)}
+                  {parrots.map((p, i) => <ParrotCard key={p.id} parrot={p} index={i} />)}
                 </AnimatePresence>
               </div>
             )}

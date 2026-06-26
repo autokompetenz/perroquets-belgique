@@ -10,7 +10,7 @@ const STATUS_ICONS = {
   pending:          '📝',
   deposit_confirmed: '💳',
   preparing:        '💉',
-  ready:            '🐶',
+  ready:            '🦜',
   delivered:        '🏠',
   cancelled:        '❌',
 };
@@ -109,18 +109,18 @@ export default function Track() {
                     {t('total', l)}
                   </p>
                   <p style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 900, fontSize: 22, color: 'var(--primary)' }}>
-                    {formatEuro(reservation.puppy?.price || 0)}
+                    {formatEuro(reservation.parrot?.price || 0)}
                   </p>
                 </div>
               </div>
 
-              {reservation.puppy && (
+              {reservation.parrot && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: 14, background: 'var(--bg-card2)', borderRadius: 10, marginBottom: 16 }}>
-                  <img src={reservation.puppy.imageUrl || 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=100&q=70'}
-                    alt={reservation.puppy.name} style={{ width: 60, height: 60, borderRadius: 10, objectFit: 'cover' }} />
+                  <img src={reservation.parrot.imageUrl || 'https://images.unsplash.com/photo-1515003197210-e0cd718b72b5?w=100&q=70'}
+                    alt={reservation.parrot.name} style={{ width: 60, height: 60, borderRadius: 10, objectFit: 'cover' }} />
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: 16, color: 'var(--text)' }}>{reservation.puppy.name}</p>
-                    <p style={{ fontSize: 13, color: 'var(--text-3)' }}>{reservation.puppy.breed}</p>
+                    <p style={{ fontWeight: 700, fontSize: 16, color: 'var(--text)' }}>{reservation.parrot.name}</p>
+                    <p style={{ fontSize: 13, color: 'var(--text-3)' }}>{reservation.parrot.species}</p>
                   </div>
                 </div>
               )}
@@ -132,7 +132,7 @@ export default function Track() {
                 </div>
                 <div>
                   <p style={{ fontSize: 11, color: 'var(--text-3)' }}>{t('balance', l)}</p>
-                  <p style={{ fontWeight: 700, color: 'var(--text)' }}>{formatEuro((reservation.puppy?.price || 0) - (reservation.depositAmount || 0))}</p>
+                  <p style={{ fontWeight: 700, color: 'var(--text)' }}>{formatEuro((reservation.parrot?.price || 0) - (reservation.depositAmount || 0))}</p>
                 </div>
                 <div>
                   <p style={{ fontSize: 11, color: 'var(--text-3)' }}>{l==='fr'?'Client':l==='nl'?'Klant':l==='en'?'Client':'Client'}</p>

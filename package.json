@@ -1,12 +1,12 @@
 {
-  "name": "sweet-puppies",
+  "name": "perroquets-belgique",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.cjs"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",
@@ -37,7 +37,7 @@
     "vite": "^5.0.8"
   },
   "prisma": {
-    "seed": "node prisma/seed.js"
+    "seed": "node prisma/seed.cjs"
   },
   "engines": {
     "node": "24.x"

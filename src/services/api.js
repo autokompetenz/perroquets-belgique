@@ -7,15 +7,15 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('sp_admin_token');
+  const token = localStorage.getItem('prq_admin_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-export const puppyAPI = {
-  getAll:        (p)    => api.get('/puppies', { params: p }),
-  getById:       (id)   => api.get(`/puppies/${id}`),
-  getBreeds:     ()     => api.get('/puppies/breeds'),
+export const parrotAPI = {
+  getAll:        (p)    => api.get('/parrots', { params: p }),
+  getById:       (id)   => api.get(`/parrots/${id}`),
+  getSpecies:    ()     => api.get('/parrots/species'),
 };
 
 export const reservationAPI = {
@@ -26,12 +26,12 @@ export const reservationAPI = {
 export const adminAPI = {
   login:           (code) => api.post('/admin/login', { code }),
   stats:           ()     => api.get('/admin/stats'),
-  puppies:         ()     => api.get('/admin/puppies'),
-  getPuppyById:    (id)   => api.get(`/admin/puppies/${id}`),
-  createPuppy:     (fd)   => api.post('/admin/puppies', fd, { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120000 }),
-  updatePuppy:     (id,fd) => api.put(`/admin/puppies/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120000 }),
-  togglePuppy:     (id)   => api.patch(`/admin/puppies/${id}/toggle`),
-  deletePuppy:     (id)   => api.delete(`/admin/puppies/${id}`),
+  parrots:         ()     => api.get('/admin/parrots'),
+  getParrotById:   (id)   => api.get(`/admin/parrots/${id}`),
+  createParrot:    (fd)   => api.post('/admin/parrots', fd, { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120000 }),
+  updateParrot:    (id,fd) => api.put(`/admin/parrots/${id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' }, timeout: 120000 }),
+  toggleParrot:    (id)   => api.patch(`/admin/parrots/${id}/toggle`),
+  deleteParrot:    (id)   => api.delete(`/admin/parrots/${id}`),
   reservations:    (p)    => api.get('/admin/reservations', { params: p }),
   reservationById: (id)   => api.get(`/admin/reservations/${id}`),
   updateReservation:(id,d) => api.patch(`/admin/reservations/${id}`, d),

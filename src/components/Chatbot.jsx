@@ -6,29 +6,29 @@ const RESPONSES = {
   fr: {
     default:  "Merci pour votre message ! Nous vous répondons rapidement.\n📧 Nous contacter",
     horaires: "Nos horaires :\n🕗 Lun–Ven : 09h00 – 18h00\n🕘 Samedi : 10h00 – 16h00\n❌ Dimanche : Fermé",
-    prix:     "Nos chiots sont proposés à des prix justes, incluant pedigree, vaccins, puce et vermifuge.\n\n📧 Contactez-nous pour plus d'infos !",
-    rdv:      "Pour prendre rendez-vous afin de rencontrer un chiot :\n\n📧 Nous contacter",
-    adresse:  "📍 ANIMAL CONCEPT SRL\nRue Fût Voie 216\n4683 Oupeye, Belgique",
-    bonjour:  "Bonjour ! Bienvenue chez ANIMAL CONCEPT SRL 🐶\n\nComment puis-je vous aider ?\n• Horaires d'ouverture\n• Prendre rendez-vous\n• Tarifs\n• Notre adresse",
-    garantie: "Tous nos chiots partent avec :\n✅ Pedigree LOSH\n✅ Vaccins à jour\n✅ Puce électronique\n✅ Vermifuge\n✅ Carnet de santé",
+    prix:     "Nos perroquets sont proposés à des prix justes, incluant pedigree, bague et certificat de santé.\n\n📧 Contactez-nous pour plus d'infos !",
+    rdv:      "Pour prendre rendez-vous afin de rencontrer un perroquet :\n\n📧 Nous contacter",
+    adresse:  "📍 Le Parc des Perroquets\n1235 Route de Claveyson\n26260 Bren, France",
+    bonjour:  "Bonjour ! Bienvenue au Parc des Perroquets 🦜\n\nComment puis-je vous aider ?\n• Horaires d'ouverture\n• Prendre rendez-vous\n• Tarifs\n• Notre adresse",
+    garantie: "Tous nos perroquets partent avec :\n✅ Pedigree\n✅ Bague fermée\n✅ Certificat de santé vétérinaire\n✅ Carnet de santé",
   },
   nl: {
     default:  "Bedankt voor uw bericht! We antwoorden snel.\n📧 Neem contact op",
     horaires: "Openingstijden:\n🕗 Ma–Vr: 09:00–18:00\n🕘 Za: 10:00–16:00\n❌ Zo: Gesloten",
-    prix:     "Onze puppy's worden aangeboden tegen eerlijke prijzen, inclusief stamboom, vaccinaties, chip en ontworming.\n\n📧 Neem contact op voor meer info!",
-    rdv:      "Om een afspraak te maken om een puppy te ontmoeten:\n\n📧 Neem contact op",
-    adresse:  "📍 ANIMAL CONCEPT SRL\nRue Fût Voie 216\n4683 Oupeye, België",
-    bonjour:  "Hallo! Welkom bij ANIMAL CONCEPT SRL 🐶\n\nHoe kan ik u helpen?\n• Openingstijden\n• Afspraak maken\n• Prijzen\n• Adres",
-    garantie: "Al onze puppy's worden geleverd met:\n✅ Stamboom LOSH\n✅ Vaccinaties up-to-date\n✅ Microchip\n✅ Ontworming\n✅ Gezondheidsboekje",
+    prix:     "Onze papegaaien worden aangeboden tegen eerlijke prijzen, inclusief stamboom, ring en gezondheidscertificaat.\n\n📧 Neem contact op voor meer info!",
+    rdv:      "Om een afspraak te maken om een papegaai te ontmoeten:\n\n📧 Neem contact op",
+    adresse:  "📍 Le Parc des Perroquets\n1235 Route de Claveyson\n26260 Bren, Frankrijk",
+    bonjour:  "Hallo! Welkom bij Le Parc des Perroquets 🦜\n\nHoe kan ik u helpen?\n• Openingstijden\n• Afspraak maken\n• Prijzen\n• Adres",
+    garantie: "Al onze papegaaien worden geleverd met:\n✅ Stamboom\n✅ Gesloten ring\n✅ Veterinair gezondheidscertificaat\n✅ Gezondheidsboekje",
   },
   en: {
     default:  "Thanks for your message! We'll reply shortly.\n📧 Contact us",
     horaires: "Opening hours:\n🕗 Mon–Fri: 09:00–18:00\n🕘 Sat: 10:00–16:00\n❌ Sun: Closed",
-    prix:     "Our puppies are offered at fair prices, including pedigree, vaccines, microchip and deworming.\n\n📧 Contact us for more info!",
-    rdv:      "To book an appointment to meet a puppy:\n\n📧 Contact us",
-    adresse:  "📍 ANIMAL CONCEPT SRL\nRue Fût Voie 216\n4683 Oupeye, Belgium",
-    bonjour:  "Hello! Welcome to ANIMAL CONCEPT SRL 🐶\n\nHow can I help you?\n• Opening hours\n• Book appointment\n• Pricing\n• Our address",
-    garantie: "All our puppies come with:\n✅ LOSH Pedigree\n✅ Up-to-date vaccines\n✅ Microchip\n✅ Deworming\n✅ Health record",
+    prix:     "Our parrots are offered at fair prices, including pedigree, ring and health certificate.\n\n📧 Contact us for more info!",
+    rdv:      "To book an appointment to meet a parrot:\n\n📧 Contact us",
+    adresse:  "📍 Le Parc des Perroquets\n1235 Route de Claveyson\n26260 Bren, France",
+    bonjour:  "Hello! Welcome to Le Parc des Perroquets 🦜\n\nHow can I help you?\n• Opening hours\n• Book appointment\n• Pricing\n• Our address",
+    garantie: "All our parrots come with:\n✅ Pedigree\n✅ Closed ring\n✅ Veterinary health certificate\n✅ Health record",
   },
 };
 
@@ -46,7 +46,7 @@ function detect(msg, lang) {
   if (/prix|price|cost|tarif|prijs|kosten/.test(m)) return R.prix;
   if (/rendez|rdv|appoint|afspraak|afspra|boek/.test(m)) return R.rdv;
   if (/adresse|address|adres|waar|where|lieu/.test(m)) return R.adresse;
-  if (/garantie|garant|warranty|gezond|vaccin|puce|chip/.test(m)) return R.garantie;
+    if (/garantie|garant|warranty|gezond|vaccin|bague|ring|certificat/.test(m)) return R.garantie;
   return R.default;
 }
 
@@ -110,7 +110,7 @@ export default function Chatbot() {
   return (
     <>
       <button className="chat-btn" onClick={() => setOpen(o => !o)} aria-label="Chat">
-        <span style={{ fontSize: 26 }}>{open ? '✕' : '🐶'}</span>
+        <span style={{ fontSize: 26 }}>{open ? '✕' : '🦜'}</span>
         {!open && notif && <div className="chat-notif">1</div>}
       </button>
 
@@ -123,10 +123,10 @@ export default function Chatbot() {
         }}
       >
         <div style={{ background: 'linear-gradient(135deg, #A8652A, #C9762E)', padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
-          <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>🐶</div>
+          <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, flexShrink: 0 }}>🦜</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 800, fontSize: 15, color: '#fff', letterSpacing: '0.02em' }}>
-              ANIMAL CONCEPT SRL
+              Le Parc des Perroquets
             </div>
             <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
               <span style={{ width: 7, height: 7, background: '#4ade80', borderRadius: '50%', display: 'inline-block' }} />

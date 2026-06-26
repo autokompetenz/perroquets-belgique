@@ -11,7 +11,7 @@ import DeliveryModal from './components/DeliveryModal';
 
 import Home from './pages/Home';
 import Catalog from './pages/Catalog';
-import PuppyDetails from './pages/PuppyDetails';
+import ParrotDetails from './pages/ParrotDetails';
 import Track from './pages/Track';
 
 
@@ -20,8 +20,8 @@ import Legal from './pages/Legal';
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminPuppies from './pages/admin/AdminPuppies';
-import AdminPuppyForm from './pages/admin/AdminPuppyForm';
+import AdminParrots from './pages/admin/AdminParrots';
+import AdminParrotForm from './pages/admin/AdminParrotForm';
 import AdminReservations from './pages/admin/AdminReservations';
 import AdminReservationDetail from './pages/admin/AdminReservationDetail';
 import AdminClients from './pages/admin/AdminClients';
@@ -65,7 +65,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<PublicRoute element={<Home />} />} />
         <Route path="/catalog" element={<PublicRoute element={<Catalog />} />} />
-        <Route path="/puppy/:slug" element={<PublicRoute element={<PuppyDetails />} />} />
+        <Route path="/parrot/:slug" element={<PublicRoute element={<ParrotDetails />} />} />
         <Route path="/track" element={<PublicRoute element={<Track />} />} />
         <Route path="/track/:number" element={<PublicRoute element={<Track />} />} />
 
@@ -75,9 +75,9 @@ export default function App() {
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
-          <Route path="puppies" element={<AdminPuppies />} />
-          <Route path="puppies/new" element={<AdminPuppyForm />} />
-          <Route path="puppies/:id/edit" element={<AdminPuppyForm />} />
+          <Route path="parrots" element={<AdminParrots />} />
+          <Route path="parrots/new" element={<AdminParrotForm />} />
+          <Route path="parrots/:id/edit" element={<AdminParrotForm />} />
           <Route path="reservations" element={<AdminReservations />} />
           <Route path="reservations/:id" element={<AdminReservationDetail />} />
           <Route path="clients" element={<AdminClients />} />

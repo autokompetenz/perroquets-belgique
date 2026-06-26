@@ -64,7 +64,7 @@ export default function AdminReservations() {
             <table style={{ width:'100%', borderCollapse:'collapse', fontSize:14 }}>
               <thead>
                 <tr style={{ borderBottom:'1px solid var(--border)' }}>
-                  {['N° Réservation','Client','Chiot','Date','Montant','Statut','Action'].map(h => (
+                  {['N° Réservation','Client','Perroquet','Date','Montant','Statut','Action'].map(h => (
                     <th key={h} style={{ textAlign:'left', fontSize:11, fontWeight:800, letterSpacing:'0.16em', textTransform:'uppercase', color:'var(--text-3)', padding:'14px 20px', background:'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
@@ -81,9 +81,9 @@ export default function AdminReservations() {
                       <p style={{ fontSize:14, color:'var(--text)', fontWeight:700 }}>{res.guestName}</p>
                       <p style={{ fontSize:12, color:'var(--text-3)', marginTop:3 }}>{res.guestEmail}</p>
                     </td>
-                    <td style={{ padding:'14px 20px', fontWeight:600, color:'var(--text-2)' }}>{res.puppy?.name || '—'}</td>
+                    <td style={{ padding:'14px 20px', fontWeight:600, color:'var(--text-2)' }}>{res.parrot?.name || '—'}</td>
                     <td style={{ padding:'14px 20px', color:'var(--text-2)', fontSize:13 }}>{formatDate(res.createdAt)}</td>
-                    <td style={{ padding:'14px 20px', fontWeight:800, color:'var(--text)', fontSize:16 }}>{formatEuro(res.puppy?.price || 0)}</td>
+                    <td style={{ padding:'14px 20px', fontWeight:800, color:'var(--text)', fontSize:16 }}>{formatEuro(res.parrot?.price || 0)}</td>
                     <td style={{ padding:'14px 20px' }}>
                       <span className={`badge badge-${res.status}`}><span style={{ width:6, height:6, borderRadius:'50%', background:'currentColor', display:'inline-block' }} /> {STATUS_LABELS[res.status] || res.status}</span>
                     </td>

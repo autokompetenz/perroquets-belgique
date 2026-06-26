@@ -110,23 +110,23 @@ export default function AdminReservationDetail() {
             )}
           </div>
 
-          {reservation.puppy && (
+          {reservation.parrot && (
             <div style={cardStyle}>
-              <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.22em', textTransform:'uppercase', color:'var(--primary)', marginBottom:18 }}>Chiot réservé</p>
+              <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.22em', textTransform:'uppercase', color:'var(--primary)', marginBottom:18 }}>Perroquet réservé</p>
               <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
-                <img src={reservation.puppy.imageUrl || ''} alt={reservation.puppy.name}
+                <img src={reservation.parrot.imageUrl || ''} alt={reservation.parrot.name}
                   style={{ width:96, height:68, objectFit:'cover', borderRadius:8, flexShrink:0, border:'1px solid var(--border)' }} />
                 <div style={{ flex:1, minWidth:160 }}>
-                  <p style={{ fontWeight:700, color:'var(--text)', fontSize:16 }}>{reservation.puppy.name}</p>
-                  <p style={{ fontSize:13, color:'var(--text-3)', marginTop:3 }}>{reservation.puppy.breed}</p>
+                  <p style={{ fontWeight:700, color:'var(--text)', fontSize:16 }}>{reservation.parrot.name}</p>
+                  <p style={{ fontSize:13, color:'var(--text-3)', marginTop:3 }}>{reservation.parrot.species}</p>
                 </div>
-                <p style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:20, color:'var(--primary)', flexShrink:0 }}>{formatEuro(reservation.puppy.price)}</p>
+                <p style={{ fontFamily:"'Outfit',sans-serif", fontWeight:800, fontSize:20, color:'var(--primary)', flexShrink:0 }}>{formatEuro(reservation.parrot.price)}</p>
               </div>
               <div className={isMobile ? 'admin-flex-wrap' : ''} style={{ display:'flex', gap:24, marginTop:16, paddingTop:16, borderTop:'1px solid var(--border)' }}>
                 {reservation.discountAmount > 0 && <div><p style={{ fontSize:11, color:'var(--text-3)' }}>{'Réduction'}</p><p style={{ fontWeight:700, color:'#22C55E', fontSize:16 }}>-{formatEuro(reservation.discountAmount)}</p></div>}
                 <div><p style={{ fontSize:11, color:'var(--text-3)' }}>{'Acompte'}</p><p style={{ fontWeight:700, color:'var(--text)', fontSize:16 }}>{formatEuro(reservation.depositAmount || 0)}</p></div>
                 {reservation.balanceAmount > 0 && <div><p style={{ fontSize:11, color:'var(--text-3)' }}>{'Solde'}</p><p style={{ fontWeight:700, color:'var(--text)', fontSize:16 }}>{formatEuro(reservation.balanceAmount)}</p></div>}
-                <div><p style={{ fontSize:11, color:'var(--text-3)' }}>{'Total'}</p><p style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:22, color:'var(--primary)' }}>{formatEuro(reservation.totalPrice || reservation.puppy?.price)}</p></div>
+                <div><p style={{ fontSize:11, color:'var(--text-3)' }}>{'Total'}</p><p style={{ fontFamily:"'Outfit',sans-serif", fontWeight:900, fontSize:22, color:'var(--primary)' }}>{formatEuro(reservation.totalPrice || reservation.parrot?.price)}</p></div>
               </div>
             </div>
           )}
@@ -176,7 +176,7 @@ export default function AdminReservationDetail() {
                 Message au client
               </label>
               <textarea value={comment} onChange={e => setComment(e.target.value)} rows={4}
-                placeholder="Ex : Votre chiot est prêt..." className="input-luxury" style={{ resize:'none', fontSize:14 }} />
+                placeholder="Ex : Votre perroquet est prêt..." className="input-luxury" style={{ resize:'none', fontSize:14 }} />
             </div>
 
             <button type="submit" disabled={saving} className="btn-primary" style={{ width:'100%', justifyContent:'center', padding:14, fontSize:14 }}>
@@ -187,7 +187,7 @@ export default function AdminReservationDetail() {
           <div style={cardStyle}>
             <p style={{ fontSize:11, fontWeight:800, letterSpacing:'0.22em', textTransform:'uppercase', color:'var(--primary)', marginBottom:18 }}>Répondre au client</p>
             <div style={{ display:'flex', gap:10, marginBottom:16 }}>
-              <a href={`mailto:${reservation.guestEmail}?subject=${encodeURIComponent('ANIMAL CONCEPT SRL — Suivi réservation ' + reservation.reservationNumber)}`}
+              <a href={`mailto:${reservation.guestEmail}?subject=${encodeURIComponent('Le Parc des Perroquets — Suivi réservation ' + reservation.reservationNumber)}`}
                 style={{ flex:1, textAlign:'center', padding:'12px 14px', fontSize:13, fontWeight:700, color:'#fff', background:'var(--primary)', borderRadius:8, textDecoration:'none', fontFamily:"'Outfit',sans-serif" }}>
                 📧 Email
               </a>

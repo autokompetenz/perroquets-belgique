@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { adminAPI } from '../../services/api';
-import { formatEuro, formatDate } from '../../utils/helpers';
+import { formatDate, formatEuro } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 
 export default function AdminDashboard() {
@@ -16,14 +16,14 @@ export default function AdminDashboard() {
   if (loading) return <div style={{ padding: 40 }}><Loader text="Chargement du tableau de bord..." /></div>;
   if (!data) return null;
 
-  const { totalPuppies = 0, totalReservations = 0, pendingReservations = 0, totalRevenue = 0, recentReservations = [] } = data;
+  const { totalParrots = 0, totalReservations = 0, pendingReservations = 0, totalRevenue = 0, recentReservations = [] } = data;
 
   const statCards = [
-    { icon:'👥', label:'Chiots', value: totalPuppies, color:'#60A5FA', sub:'En catalogue' },
+    { icon:'🦜', label:'Perroquets', value: totalParrots, color:'#60A5FA', sub:'En catalogue' },
     { icon:'📈', label:'Réservations', value: totalReservations, color:'#C084FC', sub:'Total réservations' },
     { icon:'💵', label:'Chiffre d\'affaires', value: formatEuro(totalRevenue), color:'#C9762E', sub:'Hors annulées', wide: true },
     { icon:'?', label:'En attente', value: pendingReservations, color: pendingReservations > 0 ? '#FFAA00' : '#22C55E', sub: pendingReservations > 0 ? 'Action requise' : 'Aucune en attente' },
-    { icon:'🐾', label:'Disponibles', value: data?.availablePuppies || 0, color:'#22C55E', sub:'À l\'adoption' },
+    { icon:'🐾', label:'Disponibles', value: data?.availableParrots || 0, color:'#22C55E', sub:'À l\'adoption' },
   ];
 
   return (
@@ -84,7 +84,7 @@ export default function AdminDashboard() {
                     <p style={{ fontSize:12, color:'var(--text-3)', marginTop:3 }}>{res.guestEmail}</p>
                   </td>
                   <td style={{ padding:'14px 20px', color:'var(--text-2)', fontSize:13, fontWeight:500 }}>{formatDate(res.createdAt)}</td>
-                  <td style={{ padding:'14px 20px', fontWeight:800, color:'var(--text)', fontSize:16 }}>{formatEuro(res.puppy?.price || 0)}</td>
+                  <td style={{ padding:'14px 20px', fontWeight:800, color:'var(--text)', fontSize:16 }}>{formatEuro(res.parrot?.price || 0)}</td>
                   <td style={{ padding:'14px 20px' }}>
                     <span className={`badge badge-${res.status}`}>
                       <span style={{ width:6, height:6, borderRadius:'50%', background:'currentColor', display:'inline-block' }} />

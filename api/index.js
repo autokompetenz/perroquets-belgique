@@ -20,10 +20,10 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 // Ensure storage bucket exists
 (async () => {
   const { data: buckets } = await supabase.storage.listBuckets();
-  if (!buckets?.find(b => b.name === 'puppies')) {
-    const { error } = await supabase.storage.createBucket('puppies', { public: true });
-    if (error) console.error('⚠ Erreur création bucket puppies:', error.message);
-    else console.log('✅ Bucket puppies créé');
+  if (!buckets?.find(b => b.name === 'parrots')) {
+    const { error } = await supabase.storage.createBucket('parrots', { public: true });
+    if (error) console.error('⚠ Erreur création bucket parrots:', error.message);
+    else console.log('✅ Bucket parrots créé');
   }
 })();
 
@@ -39,7 +39,7 @@ const upload = multer({
   }
 });
 
-async function uploadFiles(files, folder = 'puppies') {
+async function uploadFiles(files, folder = 'parrots') {
   const sorted = [...files].sort((a, b) =>
     a.originalname.localeCompare(b.originalname, undefined, { numeric: true })
   );
@@ -73,8 +73,8 @@ async function uploadFiles(files, folder = 'puppies') {
 
 const corsOptions = {
   origin: [
-    'https://animalconceptsrl.com',
-    'https://animalconceptsrl.vercel.app',
+    'https://leparcdesperroquets.fr',
+    'https://leparcdesperroquets.vercel.app',
     'http://localhost:5173',
     'http://localhost:3000',
   ],
@@ -107,7 +107,7 @@ app.post('/api/admin/login', adminLoginLimiter, (req, res) => {
 function authenticateAdmin(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Code d\'accès manquant' });
+    return res.status(401).json({ error: "Code d'accès manquant" });
   }
   try {
     const token = authHeader.split(' ')[1];
@@ -125,124 +125,129 @@ function authenticateAdmin(req, res, next) {
 app.get('/api', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'ANIMAL CONCEPT SRL API',
+    service: 'Le Parc des Perroquets API',
     version: '1.0.0',
     time: new Date().toISOString()
   });
 });
 
-// ─── Puppies Routes ────────────────────────────────────────────────────────
-app.get('/api/puppies', async (req, res) => {
+// ─── Parrots Routes ────────────────────────────────────────────────────────
+app.get('/api/parrots', async (req, res) => {
   try {
-    const { breed, sex, status, featured, search, minPrice, maxPrice, limit, page = 1 } = req.query;
+    const { species, sex, status, saleType, featured, search, minPrice, maxPrice, limit, page = 1 } = req.query;
     const take = limit ? parseInt(limit) : undefined;
     const skip = page ? (parseInt(page) - 1) * (take || 12) : 0;
     const where = { isActive: true, status: { not: 'sold' } };
 
-    if (breed) where.breed = { contains: breed, mode: 'insensitive' };
+    if (species) where.species = { contains: species, mode: 'insensitive' };
     if (sex) where.sex = sex;
     if (status) where.status = status;
+    if (saleType) where.saleType = saleType;
     if (featured !== undefined) where.featured = featured === 'true';
     if (search) where.OR = [
       { name: { contains: search, mode: 'insensitive' } },
-      { breed: { contains: search, mode: 'insensitive' } },
+      { species: { contains: search, mode: 'insensitive' } },
       { description: { contains: search, mode: 'insensitive' } },
     ];
     if (minPrice) where.price = { ...where.price, gte: parseFloat(minPrice) };
     if (maxPrice) where.price = { ...where.price, lte: parseFloat(maxPrice) };
 
-    const [puppies, total] = await Promise.all([
-      prisma.puppy.findMany({ where, take, skip, orderBy: { createdAt: 'desc' } }),
-      prisma.puppy.count({ where })
+    const [parrots, total] = await Promise.all([
+      prisma.parrot.findMany({ where, take, skip, orderBy: { createdAt: 'desc' } }),
+      prisma.parrot.count({ where })
     ]);
 
-    res.json({ puppies, total });
+    res.json({ parrots, total });
   } catch (error) {
-    console.error('GET /api/puppies error:', error);
-    res.status(500).json({ error: error.message || 'Erreur serveur', puppies: [], total: 0 });
+    console.error('GET /api/parrots error:', error);
+    res.status(500).json({ error: error.message || 'Erreur serveur', parrots: [], total: 0 });
   }
 });
 
-app.get('/api/puppies/breeds', async (req, res) => {
+app.get('/api/parrots/species', async (req, res) => {
   try {
-    const breeds = await prisma.puppy.groupBy({
-      by: ['breed'],
+    const species = await prisma.parrot.groupBy({
+      by: ['species'],
       where: { isActive: true, status: { not: 'sold' } },
-      _count: { breed: true }
+      _count: { species: true }
     });
-    res.json({ breeds: breeds.map(b => ({ breed: b.breed, count: b._count.breed })) });
+    res.json({ species: species.map(s => ({ species: s.species, count: s._count.species })) });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur', breeds: [] });
+    res.status(500).json({ error: 'Erreur serveur', species: [] });
   }
 });
 
-app.get('/api/puppies/:id', async (req, res) => {
+app.get('/api/parrots/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const puppyId = Number(id);
-    if (isNaN(puppyId) || puppyId <= 0) {
+    const parrotId = Number(id);
+    if (isNaN(parrotId) || parrotId <= 0) {
       return res.status(400).json({ error: 'ID invalide' });
     }
-    const puppy = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!puppy) return res.status(404).json({ error: 'Chiot non trouvé' });
-    res.json({ puppy });
+    const parrot = await prisma.parrot.findUnique({ where: { id: parrotId } });
+    if (!parrot) return res.status(404).json({ error: 'Perroquet non trouvé' });
+    res.json({ parrot });
   } catch (error) {
     res.status(500).json({ error: error.message || 'Erreur serveur' });
   }
 });
 
-// ─── Admin: Puppies CRUD ──────────────────────────────────────────────────
-app.get('/api/admin/puppies', authenticateAdmin, async (req, res) => {
+// ─── Admin: Parrots CRUD ──────────────────────────────────────────────────
+app.get('/api/admin/parrots', authenticateAdmin, async (req, res) => {
   try {
-    const puppies = await prisma.puppy.findMany({ orderBy: { createdAt: 'desc' } });
-    res.json({ puppies, total: puppies.length });
+    const parrots = await prisma.parrot.findMany({ orderBy: { createdAt: 'desc' } });
+    res.json({ parrots, total: parrots.length });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur serveur', puppies: [], total: 0 });
+    res.status(500).json({ error: 'Erreur serveur', parrots: [], total: 0 });
   }
 });
 
-app.get('/api/admin/puppies/:id', authenticateAdmin, async (req, res) => {
+app.get('/api/admin/parrots/:id', authenticateAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const puppyId = Number(id);
-    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'ID invalide' });
-    const puppy = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!puppy) return res.status(404).json({ error: 'Chiot non trouvé' });
-    res.json({ puppy });
+    const parrotId = Number(id);
+    if (isNaN(parrotId) || parrotId <= 0) return res.status(400).json({ error: 'ID invalide' });
+    const parrot = await prisma.parrot.findUnique({ where: { id: parrotId } });
+    if (!parrot) return res.status(404).json({ error: 'Perroquet non trouvé' });
+    res.json({ parrot });
   } catch (error) {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
-app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res) => {
+app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res) => {
   req.files = (req.files || []).filter(f => f.fieldname === 'images');
   try {
     const sexMap = { 'male': 'Male', 'female': 'Female' };
     if (req.body.sex) req.body.sex = sexMap[req.body.sex.toLowerCase()] || req.body.sex;
 
-    const requiredFields = ['name', 'breed', 'sex', 'birthDate', 'price'];
+    const requiredFields = ['name', 'species', 'sex', 'birthDate', 'price'];
     const missingFields = requiredFields.filter(field => !req.body[field]);
     if (missingFields.length > 0) {
       return res.status(400).json({ error: `Champs obligatoires: ${missingFields.join(', ')}` });
     }
 
-    const puppyData = {
+    const parrotData = {
       name: req.body.name,
-      breed: req.body.breed,
+      species: req.body.species,
       sex: req.body.sex,
       birthDate: new Date(req.body.birthDate),
-      color: req.body.color || 'Non spécifiée',
+      color: req.body.color || null,
+      saleType: req.body.saleType || 'solo',
+      ringNumber: req.body.ringNumber || null,
+      handFed: req.body.handFed === 'true' || req.body.handFed === true,
+      talkingAbility: req.body.talkingAbility || null,
       price: parseFloat(req.body.price),
       deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
-      microchipNumber: req.body.microchipNumber || null,
-      vaccinationStatus: req.body.vaccinationStatus || 'À jour',
-      dewormingStatus: req.body.dewormingStatus || 'À jour',
-      weightEstimatedAdult: req.body.weightEstimatedAdult ? parseFloat(req.body.weightEstimatedAdult) : null,
       description: req.body.description || null,
       pedigreeDocUrl: req.body.pedigreeDocUrl || null,
-      healthCertificateUrl: req.body.healthCertificateUrl || null,
       parentMotherName: req.body.parentMotherName || null,
       parentFatherName: req.body.parentFatherName || null,
+      partnerName: req.body.partnerName || null,
+      partnerSex: req.body.partnerSex || null,
+      partnerBirthDate: req.body.partnerBirthDate ? new Date(req.body.partnerBirthDate) : null,
+      partnerColor: req.body.partnerColor || null,
+      partnerPedigreeDocUrl: req.body.partnerPedigreeDocUrl || null,
       status: req.body.status || 'available',
       availableFrom: req.body.availableFrom ? new Date(req.body.availableFrom) : null,
       location: req.body.location || null,
@@ -252,46 +257,50 @@ app.post('/api/admin/puppies', authenticateAdmin, upload.any(), async (req, res)
     };
 
     if (req.files && req.files.length > 0) {
-      Object.assign(puppyData, await uploadFiles(req.files, 'puppies'));
+      Object.assign(parrotData, await uploadFiles(req.files, 'parrots'));
     }
 
-    const puppy = await prisma.puppy.create({ data: puppyData });
-    res.status(201).json({ puppy });
+    const parrot = await prisma.parrot.create({ data: parrotData });
+    res.status(201).json({ parrot });
   } catch (error) {
-    console.error('Create puppy error:', error);
-    res.status(500).json({ error: 'Erreur lors de la création du chiot' });
+    console.error('Create parrot error:', error);
+    res.status(500).json({ error: "Erreur lors de la création du perroquet" });
   }
 });
 
-app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, res) => {
+app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, res) => {
   req.files = (req.files || []).filter(f => f.fieldname === 'images');
   try {
     const sexMap = { 'male': 'Male', 'female': 'Female' };
     if (req.body.sex) req.body.sex = sexMap[req.body.sex.toLowerCase()] || req.body.sex;
 
     const { id } = req.params;
-    const puppyId = Number(id);
-    if (isNaN(puppyId) || puppyId <= 0) {
+    const parrotId = Number(id);
+    if (isNaN(parrotId) || parrotId <= 0) {
       return res.status(400).json({ error: 'ID invalide' });
     }
 
-    const puppyData = {
+    const parrotData = {
       name: req.body.name,
-      breed: req.body.breed,
+      species: req.body.species,
       sex: req.body.sex,
       birthDate: new Date(req.body.birthDate),
-      color: req.body.color || 'Non spécifiée',
+      color: req.body.color || null,
+      saleType: req.body.saleType || 'solo',
+      ringNumber: req.body.ringNumber || null,
+      handFed: req.body.handFed === 'true' || req.body.handFed === true,
+      talkingAbility: req.body.talkingAbility || null,
       price: parseFloat(req.body.price),
       deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
-      microchipNumber: req.body.microchipNumber || null,
-      vaccinationStatus: req.body.vaccinationStatus || 'À jour',
-      dewormingStatus: req.body.dewormingStatus || 'À jour',
-      weightEstimatedAdult: req.body.weightEstimatedAdult ? parseFloat(req.body.weightEstimatedAdult) : null,
       description: req.body.description || null,
       pedigreeDocUrl: req.body.pedigreeDocUrl || null,
-      healthCertificateUrl: req.body.healthCertificateUrl || null,
       parentMotherName: req.body.parentMotherName || null,
       parentFatherName: req.body.parentFatherName || null,
+      partnerName: req.body.partnerName || null,
+      partnerSex: req.body.partnerSex || null,
+      partnerBirthDate: req.body.partnerBirthDate ? new Date(req.body.partnerBirthDate) : null,
+      partnerColor: req.body.partnerColor || null,
+      partnerPedigreeDocUrl: req.body.partnerPedigreeDocUrl || null,
       status: req.body.status || 'available',
       availableFrom: req.body.availableFrom ? new Date(req.body.availableFrom) : null,
       location: req.body.location || null,
@@ -301,7 +310,7 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
     };
 
     if (req.files && req.files.length > 0) {
-      Object.assign(puppyData, await uploadFiles(req.files, 'puppies'));
+      Object.assign(parrotData, await uploadFiles(req.files, 'parrots'));
     }
 
     if (req.body.existingImages) {
@@ -310,48 +319,48 @@ app.put('/api/admin/puppies/:id', authenticateAdmin, upload.any(), async (req, r
         : [req.body.existingImages];
       existingImages.forEach((url, idx) => {
         const fieldName = idx === 0 ? 'imageUrl' : `imageUrl${idx + 1}`;
-        if (!puppyData[fieldName]) puppyData[fieldName] = url;
+        if (!parrotData[fieldName]) parrotData[fieldName] = url;
       });
     }
 
-    const puppy = await prisma.puppy.update({ where: { id: puppyId }, data: puppyData });
-    res.json({ puppy });
+    const parrot = await prisma.parrot.update({ where: { id: parrotId }, data: parrotData });
+    res.json({ parrot });
   } catch (error) {
-    console.error('Update puppy error:', error);
+    console.error('Update parrot error:', error);
     res.status(500).json({ error: 'Erreur lors de la mise à jour' });
   }
 });
 
-app.patch('/api/admin/puppies/:id/toggle', authenticateAdmin, async (req, res) => {
+app.patch('/api/admin/parrots/:id/toggle', authenticateAdmin, async (req, res) => {
   try {
-    const puppyId = parseInt(req.params.id);
-    if (isNaN(puppyId)) return res.status(400).json({ error: 'ID invalide' });
-    const existing = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!existing) return res.status(404).json({ error: 'Chiot non trouvé' });
-    const puppy = await prisma.puppy.update({
-      where: { id: puppyId },
+    const parrotId = parseInt(req.params.id);
+    if (isNaN(parrotId)) return res.status(400).json({ error: 'ID invalide' });
+    const existing = await prisma.parrot.findUnique({ where: { id: parrotId } });
+    if (!existing) return res.status(404).json({ error: 'Perroquet non trouvé' });
+    const parrot = await prisma.parrot.update({
+      where: { id: parrotId },
       data: { isActive: !existing.isActive },
     });
-    res.json({ puppy });
+    res.json({ parrot });
   } catch (e) {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
-app.delete('/api/admin/puppies/:id', authenticateAdmin, async (req, res) => {
+app.delete('/api/admin/parrots/:id', authenticateAdmin, async (req, res) => {
   try {
-    const puppyId = parseInt(req.params.id);
-    if (isNaN(puppyId) || puppyId <= 0) return res.status(400).json({ error: 'ID invalide' });
-    const existing = await prisma.puppy.findUnique({ where: { id: puppyId } });
-    if (!existing) return res.status(404).json({ error: 'Chiot non trouvé' });
+    const parrotId = parseInt(req.params.id);
+    if (isNaN(parrotId) || parrotId <= 0) return res.status(400).json({ error: 'ID invalide' });
+    const existing = await prisma.parrot.findUnique({ where: { id: parrotId } });
+    if (!existing) return res.status(404).json({ error: 'Perroquet non trouvé' });
     await prisma.$transaction([
-      prisma.reservationTracking.deleteMany({ where: { reservation: { puppyId } } }),
-      prisma.reservation.deleteMany({ where: { puppyId } }),
-      prisma.puppy.delete({ where: { id: puppyId } }),
+      prisma.reservationTracking.deleteMany({ where: { reservation: { parrotId } } }),
+      prisma.reservation.deleteMany({ where: { parrotId } }),
+      prisma.parrot.delete({ where: { id: parrotId } }),
     ]);
-    res.json({ success: true, message: 'Chiot supprimé' });
+    res.json({ success: true, message: 'Perroquet supprimé' });
   } catch (e) {
-    console.error('Delete puppy error:', e);
+    console.error('Delete parrot error:', e);
     res.status(500).json({ error: 'Erreur lors de la suppression' });
   }
 });
@@ -359,12 +368,12 @@ app.delete('/api/admin/puppies/:id', authenticateAdmin, async (req, res) => {
 // ─── Waitlist ───────────────────────────────────────────────────────────────
 app.post('/api/waitlist', async (req, res) => {
   try {
-    const { breed, name, email, phone } = req.body;
-    if (!breed || !name || !email) {
-      return res.status(400).json({ error: 'Race, nom et email requis' });
+    const { species, name, email, phone } = req.body;
+    if (!species || !name || !email) {
+      return res.status(400).json({ error: 'Espèce, nom et email requis' });
     }
     const entry = await prisma.waitlistEntry.create({
-      data: { breed, name, email, phone: phone || null }
+      data: { species, name, email, phone: phone || null }
     });
     res.status(201).json({ success: true, entry });
   } catch (e) {
@@ -375,23 +384,23 @@ app.post('/api/waitlist', async (req, res) => {
 // ─── Reservations ─────────────────────────────────────────────────────────
 app.post('/api/reservations', async (req, res) => {
   try {
-    const { puppyId, guestName, guestEmail, guestPhone, guestProfession, guestHomeAddress, deliveryMethod, deliveryAddress, notes, paymentMethod, hasPet, hasLostPet } = req.body;
-    if (!puppyId || !guestName || !guestEmail || !guestPhone) {
+    const { parrotId, guestName, guestEmail, guestPhone, guestProfession, guestHomeAddress, deliveryMethod, deliveryAddress, notes, paymentMethod, hasPet, hasLostPet } = req.body;
+    if (!parrotId || !guestName || !guestEmail || !guestPhone) {
       return res.status(400).json({ error: 'Champs obligatoires manquants' });
     }
 
-    const puppy = await prisma.puppy.findUnique({ where: { id: parseInt(puppyId) } });
-    if (!puppy || !puppy.isActive || puppy.status === 'sold') {
-      return res.status(404).json({ error: 'Chiot non trouvé' });
+    const parrot = await prisma.parrot.findUnique({ where: { id: parseInt(parrotId) } });
+    if (!parrot || !parrot.isActive || parrot.status === 'sold') {
+      return res.status(404).json({ error: 'Perroquet non trouvé' });
     }
 
     // Payment logic
     const isFullPayment = paymentMethod === 'full';
     const discountPercent = isFullPayment ? 15 : 0;
-    const discountAmount = isFullPayment ? Math.round(puppy.price * 0.15) : 0;
-    const totalPrice = puppy.price - discountAmount;
-    const depositAmount = isFullPayment ? totalPrice : Math.round(puppy.price * 0.5);
-    const balanceAmount = isFullPayment ? 0 : puppy.price - depositAmount;
+    const discountAmount = isFullPayment ? Math.round(parrot.price * 0.15) : 0;
+    const totalPrice = parrot.price - discountAmount;
+    const depositAmount = isFullPayment ? totalPrice : Math.round(parrot.price * 0.5);
+    const balanceAmount = isFullPayment ? 0 : parrot.price - depositAmount;
     const paymentLabel = isFullPayment
       ? `Paiement intégral (-${discountPercent}%)`
       : `Acompte 50% (solde à la livraison)`;
@@ -415,7 +424,7 @@ app.post('/api/reservations', async (req, res) => {
       const newReservation = await tx.reservation.create({
         data: {
           reservationNumber,
-          puppyId: puppy.id,
+          parrotId: parrot.id,
           guestId: guest.id,
           guestName, guestEmail, guestPhone,
           guestProfession: guestProfession || null,
@@ -446,13 +455,13 @@ app.post('/api/reservations', async (req, res) => {
 
     // Send confirmation emails (sequential, shares 1 pooled connection)
     try {
-      await sendReservationConfirmation({ email: guestEmail, name: guestName, reservation, puppy });
+      await sendReservationConfirmation({ email: guestEmail, name: guestName, reservation, parrot });
       console.log('Confirmation email sent to', guestEmail);
     } catch (err) {
       console.error('Confirmation email error:', err.message);
     }
     try {
-      await sendAdminNotification({ reservation, puppy });
+      await sendAdminNotification({ reservation, parrot });
       console.log('Admin notification sent');
     } catch (err) {
       console.error('Admin notification error:', err.message);
@@ -471,7 +480,7 @@ app.get('/api/reservations/track/:reservationNumber', async (req, res) => {
     const reservation = await prisma.reservation.findUnique({
       where: { reservationNumber },
       include: {
-        puppy: true,
+        parrot: true,
         tracking: { orderBy: { createdAt: 'desc' } },
       },
     });
@@ -491,7 +500,7 @@ app.get('/api/admin/reservations', authenticateAdmin, async (req, res) => {
       prisma.reservation.findMany({
         where,
         include: {
-          puppy: { select: { name: true, breed: true, imageUrl: true } },
+          parrot: { select: { name: true, species: true, imageUrl: true } },
         },
         orderBy: { createdAt: 'desc' },
         skip: (parseInt(page)-1)*parseInt(limit),
@@ -519,7 +528,7 @@ app.get('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => {
     const reservation = await prisma.reservation.findFirst({
       where,
       include: {
-        puppy: true,
+        parrot: true,
         tracking: { orderBy: { createdAt: 'desc' } },
       },
     });
@@ -548,23 +557,23 @@ app.patch('/api/admin/reservations/:id', authenticateAdmin, async (req, res) => 
       data: { reservationId: reservation.id, status, comment: comment || null },
     });
 
-    // If delivered, set puppy to sold
+    // If delivered, set parrot to sold
     if (status === 'delivered') {
-      await prisma.puppy.update({
-        where: { id: reservation.puppyId },
+      await prisma.parrot.update({
+        where: { id: reservation.parrotId },
         data: { status: 'sold' },
       });
     }
 
     // Notify customer of status change
-    const puppy = await prisma.puppy.findUnique({ where: { id: reservation.puppyId }, select: { name: true, breed: true } });
+    const parrot = await prisma.parrot.findUnique({ where: { id: reservation.parrotId }, select: { name: true, species: true } });
     try {
       await sendStatusNotification({
         email: reservation.guestEmail,
         name: reservation.guestName,
         reservationNumber: reservation.reservationNumber,
         status,
-        puppy: puppy || null,
+        parrot: parrot || null,
       });
     } catch (err) {
       console.error('Status notification failed:', err.message);
@@ -591,14 +600,14 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
 
     const reservation = await prisma.reservation.findUnique({
       where: { id: reservationId },
-      include: { puppy: { select: { name: true } } },
+      include: { parrot: { select: { name: true } } },
     });
     if (!reservation) return res.status(404).json({ error: 'Réservation non trouvée' });
 
     await sendReplyToCustomer({
       email: reservation.guestEmail,
       name: reservation.guestName,
-      subject: subject || `ANIMAL CONCEPT SRL — Suivi réservation ${reservation.reservationNumber}`,
+      subject: subject || `Le Parc des Perroquets — Suivi réservation ${reservation.reservationNumber}`,
       message: message.trim(),
     });
 
@@ -613,7 +622,7 @@ app.post('/api/admin/reservations/:id/reply', authenticateAdmin, async (req, res
     res.json({ success: true, message: 'Message envoyé au client' });
   } catch (e) {
     console.error('Reply error:', e);
-    res.status(500).json({ error: 'Erreur lors de l\'envoi du message' });
+    res.status(500).json({ error: "Erreur lors de l'envoi du message" });
   }
 });
 
@@ -645,8 +654,8 @@ app.delete('/api/admin/reservations/:id', authenticateAdmin, async (req, res) =>
 // ─── Admin: Stats ──────────────────────────────────────────────────────────
 app.get('/api/admin/stats', authenticateAdmin, async (req, res) => {
   try {
-    const totalPuppies = await prisma.puppy.count();
-    const availablePuppies = await prisma.puppy.count({ where: { status: 'available' } });
+    const totalParrots = await prisma.parrot.count();
+    const availableParrots = await prisma.parrot.count({ where: { status: 'available' } });
     const totalReservations = await prisma.reservation.count();
     const pendingReservations = await prisma.reservation.count({ where: { status: 'pending' } });
     const totalRevenue = await prisma.reservation.aggregate({ _sum: { depositAmount: true } });
@@ -655,19 +664,19 @@ app.get('/api/admin/stats', authenticateAdmin, async (req, res) => {
       take: 5,
       orderBy: { createdAt: 'desc' },
       include: {
-        puppy: { select: { name: true, breed: true } },
+        parrot: { select: { name: true, species: true } },
       },
     });
 
     res.json({
-      totalPuppies, availablePuppies, totalReservations,
+      totalParrots, availableParrots, totalReservations,
       pendingReservations,
       totalRevenue: totalRevenue._sum.depositAmount || 0,
       recentReservations,
     });
   } catch (e) {
     res.status(500).json({
-      totalPuppies: 0, availablePuppies: 0, totalReservations: 0,
+      totalParrots: 0, availableParrots: 0, totalReservations: 0,
       pendingReservations: 0, totalRevenue: 0, recentReservations: [],
       error: 'Erreur récupération statistiques'
     });

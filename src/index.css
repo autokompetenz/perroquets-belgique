@@ -194,8 +194,8 @@ textarea.input-luxury { resize: vertical; min-height: 100px; line-height: 1.65; 
 
 .gold-divider { height:1px; background:linear-gradient(90deg,transparent,var(--secondary-border),transparent); }
 
-.puppy-img-zoom { transition:transform 0.7s var(--ease); }
-.puppy-card:hover .puppy-img-zoom { transform:scale(1.07); }
+.parrot-img-zoom { transition:transform 0.7s var(--ease); }
+.parrot-card:hover .parrot-img-zoom { transform:scale(1.07); }
 
 .timeline-item { position:relative; padding-left:40px; }
 .timeline-item::before { content:''; position:absolute; left:12px; top:26px; bottom:-8px; width:2px; background:var(--secondary-border); }

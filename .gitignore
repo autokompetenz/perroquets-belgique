@@ -4,6 +4,3 @@ dist/
 *.log
 .DS_Store
 .vercel
-prisma/migrations/
-
-.env

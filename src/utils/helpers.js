@@ -3,10 +3,11 @@ export const formatEuro = (amount) => {
   return '€' + new Intl.NumberFormat('en-US').format(Math.round(amount));
 };
 
-export const BREEDS = [
-  'Jack Russell Terrier', 'Labrador Retriever', 'Chihuahua',
-  'Yorkshire Terrier', 'Berger Allemand', 'Bichon Maltais',
-  'Shih Tzu', 'Golden Retriever', 'Canis Vulgaris',
+export const SPECIES = [
+  'Perruche ondulée', 'Inséparable', 'Perruche Catherine', 'Forpus',
+  'Perruche moine', 'Perruche de Bourke', 'Gris du Gabon',
+  'Conure soleil', 'Amazone', 'Perruche à collier',
+  'Youyou du Sénégal', 'Caique', 'Ara', 'Cacatoès',
 ];
 
 export function timeAgo(date) {
@@ -26,8 +27,12 @@ export function formatDate(date) {
 export function getAgeString(birthDate, lang = 'fr') {
   const now = new Date();
   const birth = new Date(birthDate);
-  const weeks = Math.floor((now - birth) / (7 * 24 * 60 * 60 * 1000));
-  return `${weeks} ${lang === 'fr' ? 'semaines' : lang === 'nl' ? 'weken' : 'weeks'}`;
+  const months = Math.floor((now - birth) / (30 * 24 * 60 * 60 * 1000));
+  if (months < 1) {
+    const weeks = Math.floor((now - birth) / (7 * 24 * 60 * 60 * 1000));
+    return `${weeks} ${lang === 'fr' ? 'semaines' : lang === 'nl' ? 'weken' : 'weeks'}`;
+  }
+  return `${months} ${lang === 'fr' ? 'mois' : lang === 'nl' ? 'maanden' : 'months'}`;
 }
 
 export const STATUS_LABELS = {
@@ -39,7 +44,7 @@ export const STATUS_LABELS = {
   cancelled: 'Annulée',
 };
 
-export const PUPPY_STATUS_LABELS = {
+export const PARROT_STATUS_LABELS = {
   available: 'Disponible',
   reserved: 'Réservé',
   sold: 'Vendu',

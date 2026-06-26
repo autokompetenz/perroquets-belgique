@@ -4,19 +4,19 @@ import { useLangStore } from '../store';
 const texts = {
   fr: {
     title: '🚚 Livraison possible en France',
-    body: 'Nous livrons nos chiots dans toute la France métropolitaine. Transport sécurisé et confortable, avec suivi en temps réel.',
+    body: 'Nous livrons nos perroquets dans toute la France métropolitaine. Transport sécurisé et confortable, avec suivi en temps réel.',
     note: 'Contactez-nous pour un devis personnalisé.',
     btn: 'Compris !',
   },
   nl: {
     title: '🚚 Levering mogelijk in Frankrijk',
-    body: 'Wij leveren onze puppy\'s in heel Europees Frankrijk. Veilig en comfortabel transport met realtime tracking.',
+    body: 'Wij leveren onze papegaaien in heel Europees Frankrijk. Veilig en comfortabel transport met realtime tracking.',
     note: 'Neem contact met ons op voor een aangepaste offerte.',
     btn: 'Begrepen !',
   },
   en: {
     title: '🚚 Delivery available in France',
-    body: 'We deliver our puppies throughout metropolitan France. Safe and comfortable transport with real-time tracking.',
+    body: 'We deliver our parrots throughout metropolitan France. Safe and comfortable transport with real-time tracking.',
     note: 'Contact us for a personalized quote.',
     btn: 'Got it!',
   },

@@ -49,7 +49,7 @@ export default function AdminWaitlist() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  {['Nom', 'Email', 'Race souhaitée', 'Inscrit le', 'Action'].map(h => (
+                  {['Nom', 'Email', 'Espèce souhaitée', 'Inscrit le', 'Action'].map(h => (
                     <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '14px 20px', background: 'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
@@ -63,7 +63,7 @@ export default function AdminWaitlist() {
                       <p style={{ fontWeight: 700, color: 'var(--text)' }}>{entry.name || '—'}</p>
                     </td>
                     <td style={{ padding: '14px 20px', color: 'var(--text-2)' }}>{entry.email}</td>
-                    <td style={{ padding: '14px 20px', color: 'var(--text-2)' }}>{entry.breed || '—'}</td>
+                    <td style={{ padding: '14px 20px', color: 'var(--text-2)' }}>{entry.species || '—'}</td>
                     <td style={{ padding: '14px 20px', color: 'var(--text-3)', fontSize: 13 }}>{formatDate(entry.createdAt)}</td>
                     <td style={{ padding: '14px 20px' }}>
                       <button type="button" onClick={() => handleDelete(entry)}

@@ -13,7 +13,12 @@ enum Sex {
   Female
 }
 
-enum PuppyStatus {
+enum SaleType {
+  solo
+  couple
+}
+
+enum ParrotStatus {
   available
   reserved
   sold
@@ -33,26 +38,33 @@ enum ReservationStatus {
   cancelled
 }
 
-model Puppy {
+model Parrot {
   id                  Int         @id @default(autoincrement())
   name                String
-  breed               String
+  species             String
   sex                 Sex
   birthDate           DateTime
   color               String
-  microchipNumber     String?     @unique
-  vaccinationStatus   String      @default("À jour")
-  dewormingStatus     String      @default("À jour")
-  weightCurrent       Float?
-  weightEstimatedAdult Float?
+  saleType            SaleType    @default(solo)
+  ringNumber          String?     @unique
+  handFed             Boolean     @default(true)
+  talkingAbility      String?
+  healthCertificateUrl String?
   price               Float
   deposit             Float?
   description         String?     @db.Text
   pedigreeDocUrl      String?
-  healthCertificateUrl String?
   parentMotherName    String?
   parentFatherName    String?
-  status              PuppyStatus @default(available)
+
+  // Couple fields (when saleType = couple)
+  partnerName         String?
+  partnerSex          Sex?
+  partnerBirthDate    DateTime?
+  partnerColor        String?
+  partnerPedigreeDocUrl String?
+
+  status              ParrotStatus @default(available)
   availableFrom       DateTime?
   location            String?
   featured            Boolean     @default(false)
@@ -84,7 +96,7 @@ model Guest {
 model Reservation {
   id               Int                @id @default(autoincrement())
   reservationNumber String            @unique
-  puppyId          Int
+  parrotId         Int
   guestId          Int?
   guestName        String
   guestEmail       String
@@ -110,7 +122,7 @@ model Reservation {
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
 
-  puppy    Puppy          @relation(fields: [puppyId], references: [id])
+  parrot   Parrot         @relation(fields: [parrotId], references: [id])
   guest    Guest?         @relation(fields: [guestId], references: [id])
   tracking ReservationTracking[]
 }
@@ -134,7 +146,7 @@ model AdminLog {
 
 model WaitlistEntry {
   id        Int      @id @default(autoincrement())
-  breed     String
+  species   String
   name      String
   email     String
   phone     String?
