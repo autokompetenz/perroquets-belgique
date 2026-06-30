@@ -9,7 +9,7 @@ export default function ParrotCard({ parrot, index = 0 }) {
   const { lang } = useLangStore();
   const [hovered, setHovered] = useState(false);
   const l = lang || 'fr';
-  const isCouple = parrot.saleType === 'couple';
+
 
   return (
     <motion.div
@@ -38,9 +38,7 @@ export default function ParrotCard({ parrot, index = 0 }) {
           {parrot.featured && (
             <span style={{ background: '#3A7D44', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>★ Nouveau</span>
           )}
-          {isCouple && (
-            <span style={{ background: 'rgba(58,125,68,0.85)', color: '#fff', fontSize: 9, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: 3 }}>❤️ Couple</span>
-          )}
+
         </div>
 
         <div style={{ position: 'absolute', bottom: 12, left: 12, right: 12, display: 'flex', gap: 8 }}>
@@ -61,12 +59,11 @@ export default function ParrotCard({ parrot, index = 0 }) {
         <Link to={`/parrot/${parrot.slug || parrot.id}`} style={{ textDecoration: 'none' }}>
           <h3 style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 800, fontSize: 20, color: 'var(--text)', letterSpacing: '-0.01em', marginBottom: 3, lineHeight: 1.1, transition: 'color 0.2s' }}
             onMouseOver={e => e.target.style.color = 'var(--primary)'} onMouseOut={e => e.target.style.color = 'var(--text)'}>
-            {isCouple ? `${parrot.name} & ${parrot.partnerName || '—'}` : parrot.name}
+            {parrot.name}
           </h3>
         </Link>
         <p style={{ fontSize: 13, color: 'var(--text-3)', marginBottom: 14, fontWeight: 500 }}>
             {parrot.species} · {parrot.sex === 'Male' ? t('male', l) : t('female', l)} · {getAgeString(parrot.birthDate, l)}
-            {isCouple && parrot.partnerName && <span> & {parrot.partnerName}</span>}
         </p>
 
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 10 }}>
@@ -74,7 +71,7 @@ export default function ParrotCard({ parrot, index = 0 }) {
             <div style={{ fontFamily: "'Outfit',sans-serif", fontWeight: 900, fontSize: 26, color: 'var(--text)', letterSpacing: '-0.02em', lineHeight: 1 }}>
               {formatEuro(parrot.price)}
             </div>
-            {isCouple && <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 2 }}>pour le couple</div>}
+
           </div>
           <Link to={`/parrot/${parrot.slug || parrot.id}`}
             className="admin-reserve-btn"

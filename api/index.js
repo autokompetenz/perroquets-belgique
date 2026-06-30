@@ -222,11 +222,14 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
       return res.status(400).json({ error: 'Champ obligatoire: name' });
     }
 
+    const sex = req.body.sex === 'Male' ? 'Male' : req.body.sex === 'Female' ? 'Female' : undefined;
+
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
+      ...(sex && { sex }),
     };
 
     if (req.files && req.files.length > 0) {
@@ -250,11 +253,14 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
       return res.status(400).json({ error: 'ID invalide' });
     }
 
+    const sex = req.body.sex === 'Male' ? 'Male' : req.body.sex === 'Female' ? 'Female' : undefined;
+
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
+      ...(sex && { sex }),
     };
 
     if (req.files && req.files.length > 0) {

@@ -60,7 +60,7 @@ export default function ParrotDetails() {
   const images = [parrot.imageUrl, parrot.imageUrl2, parrot.imageUrl3, parrot.imageUrl4, parrot.imageUrl5].filter(Boolean);
   const l = lang || 'fr';
   const isAvailable = parrot.status !== 'sold';
-  const isCouple = parrot.saleType === 'couple';
+
 
   return (
     <div style={{ minHeight: '100vh', background: C.bg, paddingTop: 76 }}>
@@ -78,7 +78,7 @@ export default function ParrotDetails() {
             {l==='fr'?'Catalogue':l==='nl'?'Catalogus':l==='en'?'Catalog':'Catalogue'}
           </Link>
           <span style={{ margin: '0 10px', opacity: 0.3 }}>▸</span>
-          <span style={{ color: C.text2 }}>{parrot.name}{isCouple && parrot.partnerName ? ` & ${parrot.partnerName}` : ''}</span>
+          <span style={{ color: C.text2 }}>{parrot.name}</span>
         </p>
       </div>
 
@@ -114,21 +114,16 @@ export default function ParrotDetails() {
               <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', color: C.primary }}>
                 {parrot.species}
               </span>
-              {isCouple && (
-                <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#fff', background: 'rgba(58,125,68,0.8)', padding: '3px 10px', borderRadius: 4 }}>
-                  ❤️ {t('couple', l)}
-                </span>
-              )}
             </div>
             <h1 style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: isMobile ? 36 : 52, color: C.text, letterSpacing: '-0.02em', lineHeight: 1, marginBottom: 20 }}>
-              {parrot.name}{isCouple && parrot.partnerName ? <span style={{ color: C.text3, fontWeight: 400 }}> & {parrot.partnerName}</span> : ''}
+              {parrot.name}
             </h1>
 
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 28 }}>
               <span style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 900, fontSize: 40, color: C.text, letterSpacing: '-0.02em' }}>
                 {formatEuro(parrot.price)}
               </span>
-              {isCouple && <span style={{ fontSize: 14, color: C.text3 }}>pour le couple</span>}
+
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 24 }}>
@@ -137,7 +132,7 @@ export default function ParrotDetails() {
                 { label: t('birth_date', l), value: parrot.birthDate ? formatDate(parrot.birthDate) + ' (' + getAgeString(parrot.birthDate, l) + ')' : 'N/A', icon: '📅' },
                 { label: t('color_label', l), value: parrot.color || 'N/A', icon: '🎨' },
                 { label: t('ring_number', l), value: parrot.ringNumber || 'N/A', icon: '🔗' },
-                { label: t('sale_type', l), value: isCouple ? t('couple', l) : t('solo', l), icon: isCouple ? '💑' : '🦜' },
+
                 { label: t('hand_fed', l), value: parrot.handFed ? (l==='fr'?'Oui':l==='nl'?'Ja':'Yes') : (l==='fr'?'Non':l==='nl'?'Nee':'No'), icon: '🤲' },
               ].map(({ label, value, icon }) => (
                 <div key={label} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: 12, padding: isMobile ? '14px 16px' : '16px 18px', display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -317,36 +312,7 @@ export default function ParrotDetails() {
               ))}
             </div>
 
-            {/* Partner info if couple */}
-            {isCouple && parrot.partnerName && (
-              <div style={{ marginTop: 20, padding: 20, background: 'linear-gradient(135deg,rgba(58,125,68,0.06),rgba(58,125,68,0.02))', borderRadius: 12, border: '1px solid rgba(58,125,68,0.15)' }}>
-                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.primary, marginBottom: 12 }}>
-                  ❤️ {l==='fr'?'Informations sur le couple':l==='nl'?'Informatie over het koppel':l==='en'?'Couple information':'Informations sur le couple'}
-                </p>
-                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
-                  <div>
-                    <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{l==='fr'?'Partenaire':l==='nl'?'Partner':l==='en'?'Partner':'Partenaire'}</p>
-                    <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerName}</p>
-                  </div>
-                  <div>
-                    <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{l==='fr'?'Sexe':l==='nl'?'Geslacht':l==='en'?'Sex':'Sexe'}</p>
-                    <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerSex === 'Male' ? t('male', l) : t('female', l)}</p>
-                  </div>
-                  {parrot.partnerBirthDate && (
-                    <div>
-                      <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{t('birth_date', l)}</p>
-                      <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{formatDate(parrot.partnerBirthDate)}</p>
-                    </div>
-                  )}
-                  {parrot.partnerColor && (
-                    <div>
-                      <p style={{ fontSize: 13, color: C.text3, marginBottom: 4 }}>{t('color_label', l)}</p>
-                      <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.partnerColor}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+
           </div>
         </motion.div>
       </div>
