@@ -317,18 +317,6 @@ export default function ParrotDetails() {
               ))}
             </div>
 
-            {/* Parents */}
-            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
-              <div style={{ background: C.card2, borderRadius: 12, padding: 20 }}>
-                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.text3, marginBottom: 8 }}>{t('mother', l)}</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.parentMotherName || 'N/A'}</p>
-              </div>
-              <div style={{ background: C.card2, borderRadius: 12, padding: 20 }}>
-                <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.text3, marginBottom: 8 }}>{t('father', l)}</p>
-                <p style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{parrot.parentFatherName || 'N/A'}</p>
-              </div>
-            </div>
-
             {/* Partner info if couple */}
             {isCouple && parrot.partnerName && (
               <div style={{ marginTop: 20, padding: 20, background: 'linear-gradient(135deg,rgba(58,125,68,0.06),rgba(58,125,68,0.02))', borderRadius: 12, border: '1px solid rgba(58,125,68,0.15)' }}>

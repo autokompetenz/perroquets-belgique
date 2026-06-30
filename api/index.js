@@ -225,6 +225,8 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
+      ringNumber: req.body.ringNumber || null,
+      color: req.body.color || null,
     };
 
     if (req.files && req.files.length > 0) {
@@ -251,6 +253,8 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
+      ringNumber: req.body.ringNumber || null,
+      color: req.body.color || null,
     };
 
     if (req.files && req.files.length > 0) {
