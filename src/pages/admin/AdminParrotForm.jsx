@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { adminAPI } from '../../services/api';
 import { useToastStore } from '../../store';
+import { SPECIES } from '../../utils/helpers';
 
 const EMPTY = {
   name:'', description:'', ringNumber:'', color:'', sex:'', birthDate:'', species:'',
@@ -97,8 +98,11 @@ export default function AdminParrotForm() {
             </div>
             <div>
               <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--text-3)', marginBottom:10 }}>Espèce</label>
-              <input name="species" value={form.species} onChange={set("species")} placeholder="Ara, Gris du Gabon, etc."
-                className="input-luxury" style={{ fontSize:15, borderRadius:10, padding:'14px 18px', width:'100%' }} />
+              <select name="species" value={form.species} onChange={set("species")}
+                className="input-luxury" style={{ fontSize:15, borderRadius:10, padding:'14px 18px', width:'100%', appearance:'auto', cursor:'pointer' }}>
+                <option value="">—</option>
+                {SPECIES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:20 }}>
               <div>
