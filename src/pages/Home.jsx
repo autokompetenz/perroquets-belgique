@@ -107,6 +107,30 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
+        {/* Hero image */}
+        <motion.div
+          initial={{ opacity:0, x:60 }}
+          animate={{ opacity:1, x:0 }}
+          transition={{ duration:1, delay:0.4 }}
+          style={{
+            position:'absolute', right: isMobile ? '5%' : '7%',
+            top:'50%', transform:'translateY(-50%)',
+            zIndex:2, maxWidth: isMobile ? '40%' : 420,
+            width:'100%', pointerEvents:'none'
+          }}>
+          <div style={{
+            borderRadius:20, overflow:'hidden',
+            boxShadow:'0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
+            aspectRatio:'4/3'
+          }}>
+            <img
+              src="/hero-parrot.jpg"
+              alt="Perroquets"
+              style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
+            />
+          </div>
+        </motion.div>
+
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity:0 }}
