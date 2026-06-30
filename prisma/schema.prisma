@@ -41,16 +41,16 @@ enum ReservationStatus {
 model Parrot {
   id                  Int         @id @default(autoincrement())
   name                String
-  species             String
-  sex                 Sex
-  birthDate           DateTime
-  color               String
+  species             String?
+  sex                 Sex?
+  birthDate           DateTime?
+  color               String?
   saleType            SaleType    @default(solo)
   ringNumber          String?     @unique
   handFed             Boolean     @default(true)
   talkingAbility      String?
   healthCertificateUrl String?
-  price               Float
+  price               Float?
   deposit             Float?
   description         String?     @db.Text
   pedigreeDocUrl      String?
