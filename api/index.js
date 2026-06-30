@@ -228,6 +228,7 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
+      species: req.body.species || null,
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
       ...(sex && { sex }),
@@ -261,6 +262,7 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
     const parrotData = {
       name: req.body.name,
       description: req.body.description || null,
+      species: req.body.species || null,
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
       ...(sex && { sex }),
