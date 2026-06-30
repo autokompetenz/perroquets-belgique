@@ -7,7 +7,7 @@ import { useLangStore } from '../store';
 import { t } from '../utils/i18n';
 import { useBreakpoint } from '../hooks';
 import ParrotCard from '../components/ParrotCard';
-import ForetScene from '../components/ForetScene';
+
 
 const SERVICES = [
   { icon:'🦜', fr:'Perroquets de race', nl:'Papegaaien van ras', en:'Purebred parrots',
@@ -73,8 +73,6 @@ export default function Home() {
           <div style={{ position:'absolute', width:'120%', height:'120%', top:'-10%', left:'-10%', background:'radial-gradient(circle at 70% 50%, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
           <div style={{ position:'absolute', width:'100%', height:'100%', background:'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E")' }} />
         </div>
-
-        <ForetScene />
 
         <motion.div style={{ position:'relative', zIndex:3, padding: isMobile ? '0 5%' : '0 7%', maxWidth:780, opacity:heroO }}>
           <motion.div initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.1 }}>
