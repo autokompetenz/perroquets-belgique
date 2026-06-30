@@ -4,7 +4,7 @@ import { adminAPI } from '../../services/api';
 import { useToastStore } from '../../store';
 
 const EMPTY = {
-  name:'', description:'', ringNumber:'', color:'', sex:'',
+  name:'', description:'', ringNumber:'', color:'', sex:'', birthDate:'',
 };
 
 export default function AdminParrotForm() {
@@ -24,7 +24,7 @@ export default function AdminParrotForm() {
     if (isEdit) {
       adminAPI.getParrotById(id).then(r => {
         const c = r.data.parrot;
-        setForm({ name: c.name || '', description: c.description || '', ringNumber: c.ringNumber || '', color: c.color || '', sex: c.sex || '' });
+        setForm({ name: c.name || '', description: c.description || '', ringNumber: c.ringNumber || '', color: c.color || '', sex: c.sex || '', birthDate: c.birthDate ? c.birthDate.split('T')[0] : '' });
         const existing = [];
         ['imageUrl', 'imageUrl2', 'imageUrl3', 'imageUrl4', 'imageUrl5'].forEach((field, idx) => {
           if (c[field]) existing.push({ url: c[field], id: `existing-${idx + 1}`, isExisting: true, field });
@@ -95,7 +95,7 @@ export default function AdminParrotForm() {
               <input name="name" value={form.name} onChange={set("name")} placeholder="Kiwi"
                 className="input-luxury" style={{ fontSize:15, borderRadius:10, padding:'14px 18px', width:'100%' }} />
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:20 }}>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', gap:20 }}>
               <div>
                 <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--text-3)', marginBottom:10 }}>Bague fermée</label>
                 <input name="ringNumber" value={form.ringNumber} onChange={set("ringNumber")} placeholder="FR-2026-XXX"
@@ -114,6 +114,11 @@ export default function AdminParrotForm() {
                   <option value="Male">Mâle</option>
                   <option value="Female">Femelle</option>
                 </select>
+              </div>
+              <div>
+                <label style={{ display:'block', fontSize:11, fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:'var(--text-3)', marginBottom:10 }}>Date de naissance</label>
+                <input type="date" name="birthDate" value={form.birthDate} onChange={set("birthDate")}
+                  className="input-luxury" style={{ fontSize:15, borderRadius:10, padding:'14px 18px', width:'100%' }} />
               </div>
             </div>
             <div>

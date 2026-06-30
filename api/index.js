@@ -223,6 +223,7 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
     }
 
     const sex = req.body.sex === 'Male' ? 'Male' : req.body.sex === 'Female' ? 'Female' : undefined;
+    const birthDate = req.body.birthDate ? new Date(req.body.birthDate) : undefined;
 
     const parrotData = {
       name: req.body.name,
@@ -230,6 +231,7 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
       ...(sex && { sex }),
+      ...(birthDate && { birthDate }),
     };
 
     if (req.files && req.files.length > 0) {
@@ -254,6 +256,7 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
     }
 
     const sex = req.body.sex === 'Male' ? 'Male' : req.body.sex === 'Female' ? 'Female' : undefined;
+    const birthDate = req.body.birthDate ? new Date(req.body.birthDate) : undefined;
 
     const parrotData = {
       name: req.body.name,
@@ -261,6 +264,7 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
       ringNumber: req.body.ringNumber || null,
       color: req.body.color || null,
       ...(sex && { sex }),
+      ...(birthDate && { birthDate }),
     };
 
     if (req.files && req.files.length > 0) {
