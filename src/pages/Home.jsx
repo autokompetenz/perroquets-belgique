@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <div style={{ minHeight:'100vh', background:'var(--bg)' }}>
-      <section ref={heroRef} style={{ position:'relative', height: isMobile ? '100svh' : '100vh', minHeight:580, display:'flex', alignItems:'center', overflow:'hidden', background:'linear-gradient(160deg, #0D2414 0%, #1A3C26 30%, #2D5A3E 60%, #3A7D44 100%)' }}>
+      <section ref={heroRef} style={{ position:'relative', height: isMobile ? '100svh' : '100vh', minHeight:580, display:'flex', alignItems:'center', overflow:'hidden', background:'linear-gradient(160deg, rgba(13,36,20,0.85) 0%, rgba(26,60,38,0.75) 30%, rgba(45,90,62,0.65) 60%, rgba(58,125,68,0.55) 100%), url(/hero-parrot.jpg) center/cover no-repeat' }}>
         <div style={{ position:'absolute', inset:0, opacity:0.15 }}>
           <div style={{ position:'absolute', width:'120%', height:'120%', top:'-10%', left:'-10%', background:'radial-gradient(circle at 70% 50%, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
           <div style={{ position:'absolute', width:'100%', height:'100%', background:'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 512 512\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.3\'/%3E%3C/svg%3E")' }} />
@@ -105,30 +105,6 @@ export default function Home() {
               {t('hero_cta2', l)}
             </Link>
           </motion.div>
-        </motion.div>
-
-        {/* Hero image */}
-        <motion.div
-          initial={{ opacity:0, x:60 }}
-          animate={{ opacity:1, x:0 }}
-          transition={{ duration:1, delay:0.4 }}
-          style={{
-            position:'absolute', right: isMobile ? '5%' : '7%',
-            top:'50%', transform:'translateY(-50%)',
-            zIndex:2, maxWidth: isMobile ? '40%' : 420,
-            width:'100%', pointerEvents:'none'
-          }}>
-          <div style={{
-            borderRadius:20, overflow:'hidden',
-            boxShadow:'0 25px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08)',
-            aspectRatio:'4/3'
-          }}>
-            <img
-              src="/hero-parrot.jpg"
-              alt="Perroquets"
-              style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
-            />
-          </div>
         </motion.div>
 
         {/* Scroll indicator */}
