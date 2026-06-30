@@ -218,42 +218,13 @@ app.get('/api/admin/parrots/:id', authenticateAdmin, async (req, res) => {
 app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res) => {
   req.files = (req.files || []).filter(f => f.fieldname === 'images');
   try {
-    const sexMap = { 'male': 'Male', 'female': 'Female' };
-    if (req.body.sex) req.body.sex = sexMap[req.body.sex.toLowerCase()] || req.body.sex;
-
-    const requiredFields = ['name', 'species', 'sex', 'birthDate', 'price'];
-    const missingFields = requiredFields.filter(field => !req.body[field]);
-    if (missingFields.length > 0) {
-      return res.status(400).json({ error: `Champs obligatoires: ${missingFields.join(', ')}` });
+    if (!req.body.name) {
+      return res.status(400).json({ error: 'Champ obligatoire: name' });
     }
 
     const parrotData = {
       name: req.body.name,
-      species: req.body.species,
-      sex: req.body.sex,
-      birthDate: new Date(req.body.birthDate),
-      color: req.body.color || null,
-      saleType: req.body.saleType || 'solo',
-      ringNumber: req.body.ringNumber || null,
-      handFed: req.body.handFed === 'true' || req.body.handFed === true,
-      talkingAbility: req.body.talkingAbility || null,
-      price: parseFloat(req.body.price),
-      deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
       description: req.body.description || null,
-      pedigreeDocUrl: req.body.pedigreeDocUrl || null,
-      parentMotherName: req.body.parentMotherName || null,
-      parentFatherName: req.body.parentFatherName || null,
-      partnerName: req.body.partnerName || null,
-      partnerSex: req.body.partnerSex || null,
-      partnerBirthDate: req.body.partnerBirthDate ? new Date(req.body.partnerBirthDate) : null,
-      partnerColor: req.body.partnerColor || null,
-      partnerPedigreeDocUrl: req.body.partnerPedigreeDocUrl || null,
-      status: req.body.status || 'available',
-      availableFrom: req.body.availableFrom ? new Date(req.body.availableFrom) : null,
-      location: req.body.location || null,
-      featured: req.body.featured === 'true' || req.body.featured === true,
-      isActive: req.body.isActive !== 'false' && req.body.isActive !== false,
-      videoUrl: req.body.videoUrl || null,
     };
 
     if (req.files && req.files.length > 0) {
@@ -271,9 +242,6 @@ app.post('/api/admin/parrots', authenticateAdmin, upload.any(), async (req, res)
 app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, res) => {
   req.files = (req.files || []).filter(f => f.fieldname === 'images');
   try {
-    const sexMap = { 'male': 'Male', 'female': 'Female' };
-    if (req.body.sex) req.body.sex = sexMap[req.body.sex.toLowerCase()] || req.body.sex;
-
     const { id } = req.params;
     const parrotId = Number(id);
     if (isNaN(parrotId) || parrotId <= 0) {
@@ -282,31 +250,7 @@ app.put('/api/admin/parrots/:id', authenticateAdmin, upload.any(), async (req, r
 
     const parrotData = {
       name: req.body.name,
-      species: req.body.species,
-      sex: req.body.sex,
-      birthDate: new Date(req.body.birthDate),
-      color: req.body.color || null,
-      saleType: req.body.saleType || 'solo',
-      ringNumber: req.body.ringNumber || null,
-      handFed: req.body.handFed === 'true' || req.body.handFed === true,
-      talkingAbility: req.body.talkingAbility || null,
-      price: parseFloat(req.body.price),
-      deposit: req.body.deposit ? parseFloat(req.body.deposit) : Math.round(parseFloat(req.body.price) * 0.25),
       description: req.body.description || null,
-      pedigreeDocUrl: req.body.pedigreeDocUrl || null,
-      parentMotherName: req.body.parentMotherName || null,
-      parentFatherName: req.body.parentFatherName || null,
-      partnerName: req.body.partnerName || null,
-      partnerSex: req.body.partnerSex || null,
-      partnerBirthDate: req.body.partnerBirthDate ? new Date(req.body.partnerBirthDate) : null,
-      partnerColor: req.body.partnerColor || null,
-      partnerPedigreeDocUrl: req.body.partnerPedigreeDocUrl || null,
-      status: req.body.status || 'available',
-      availableFrom: req.body.availableFrom ? new Date(req.body.availableFrom) : null,
-      location: req.body.location || null,
-      featured: req.body.featured === 'true' || req.body.featured === true,
-      isActive: req.body.isActive !== 'false' && req.body.isActive !== false,
-      videoUrl: req.body.videoUrl || null,
     };
 
     if (req.files && req.files.length > 0) {

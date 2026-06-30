@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { adminAPI } from '../../services/api';
 import { useToastStore } from '../../store';
-import { formatEuro } from '../../utils/helpers';
 import { Loader } from '../../components/UI';
 
 export default function AdminParrots() {
@@ -85,7 +84,7 @@ export default function AdminParrots() {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 14 }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border)' }}>
-                  {['Photo', 'Nom', 'Espèce', 'Prix', 'Statut', 'Actif', 'Actions'].map(h => (
+                  {['Photo', 'Nom', 'Actions'].map(h => (
                     <th key={h} style={{ textAlign: 'left', fontSize: 11, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-3)', padding: '14px 20px', background: 'var(--bg-card2)' }}>{h}</th>
                   ))}
                 </tr>
@@ -103,25 +102,7 @@ export default function AdminParrots() {
                       )}
                     </td>
                     <td style={{ padding: '14px 20px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-                        <p style={{ fontWeight: 800, color: 'var(--text)', fontSize: 16 }}>{parrot.name}{parrot.saleType === 'couple' && parrot.partnerName ? ` & ${parrot.partnerName}` : ''}</p>
-                        {parrot.featured && (
-                          <span style={{ fontSize: 10, fontWeight: 800, background: 'var(--primary-bg)', color: 'var(--primary)', border: '1px solid var(--primary-border)', padding: '3px 10px', borderRadius: 6, letterSpacing: '0.1em' }}>★ NOUVEAU</span>
-                        )}
-                      </div>
-                    </td>
-                    <td style={{ padding: '14px 20px', color: 'var(--text-2)', fontSize: 14, fontWeight: 600 }}>{parrot.species}</td>
-                    <td style={{ padding: '14px 20px', fontWeight: 800, color: 'var(--primary)', fontSize: 17, letterSpacing: '-0.01em' }}>{formatEuro(parrot.price)}</td>
-                    <td style={{ padding: '14px 20px' }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em',
-                        background: parrot.status === 'available' ? 'rgba(34,197,94,0.12)' : parrot.status === 'reserved' ? 'rgba(250,204,21,0.12)' : 'rgba(239,68,68,0.1)',
-                        color: parrot.status === 'available' ? '#22C55E' : parrot.status === 'reserved' ? '#EAB308' : '#EF4444',
-                        border: `1px solid ${parrot.status === 'available' ? 'rgba(34,197,94,0.28)' : parrot.status === 'reserved' ? 'rgba(250,204,21,0.28)' : 'rgba(239,68,68,0.25)'}` }}>{parrot.status}</span>
-                    </td>
-                    <td style={{ padding: '14px 20px' }}>
-                      <span style={{ fontSize: 11, fontWeight: 800, padding: '6px 12px', borderRadius: 12, letterSpacing: '0.04em', background: parrot.isActive ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.1)', color: parrot.isActive ? '#22C55E' : '#EF4444', border: `1px solid ${parrot.isActive ? 'rgba(34,197,94,0.28)' : 'rgba(239,68,68,0.25)'}` }}>
-                        {parrot.isActive ? 'Actif' : 'Inactif'}
-                      </span>
+                      <p style={{ fontWeight: 800, color: 'var(--text)', fontSize: 16 }}>{parrot.name}</p>
                     </td>
                     <td style={{ padding: '14px 20px' }}>
                       <div style={{ display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
